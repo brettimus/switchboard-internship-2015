@@ -1,0 +1,7 @@
+# :pizza: Food for Thought :pizza:
+Can you assign values to the empty-string property of an object? E.g.,
+```javascript
+var ruhRoh = {};
+ruhRoh[""] = "Raggy!";
+```
+What happens?
