@@ -57,7 +57,7 @@ console.log(typeof magicString); // => "string"
 console.log(typeof magicNumber); // => "number"
 ```
 
-JavaScript also supports a throwback to assembly code (in the form of ++ and --).
+JavaScript also supports a throwback to assembly code (in the form of unary operators `++` and `--`).
 `++` prefix & postfix
 ```javascript
 var i = 1,
