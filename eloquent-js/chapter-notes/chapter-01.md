@@ -20,7 +20,7 @@ console.log(5, -3)   // => 2
 console.log(-5, -3)  // => -2
 ```
 
-See **:pizza: Food for Thought :pizza:** for an optional exercise surrounding remainder.
+See **:pizza: Food for Thought :pizza:** for a highly-optional exercise surrounding the remainder operator.
 
 
 # shit's getting wIEEE754rdddd
@@ -120,9 +120,9 @@ console.log(!!false)      // => okay. that's enough.
 
 
 # Primitive Wrapper Types
-I might be jumping the proverbial javascript-gun here, but why not inundate you with implementation details?
+I might be jumping the proverbial javascript-gunship here, but why not inundate you with implementation details?
 
-The types `Number`, `Boolean`, `String`, `null`, and `undefined` are language primitives. All other values in JS are `Object`s, which means they store properties and methods that we can manipulate and call with dot notation. E.g.,
+The types `Number`, `Boolean`, `String`, `null`, and `undefined` are language primitives. All other values in JS are `Object`s, which means they store properties (which can in turn hold objects or primitives) and methods that we can manipulate and call with dot notation. E.g.,
 
 ```javascript
 var boots = { isAwesome: true };  // create an object with the property "isAwesome" set to true.
@@ -139,11 +139,18 @@ A-ha! I know... Why don't we get clever?
 ```javascript
 var boots = 42;
 boots.isAwesome = true;
-console.log(boots.isAwesome)  // => undefined
+console.log(boots.isAwesome);  // => undefined
 ```
 
 :disappointed:
 
+
+I'm so distraught... I'M GOING TO DO SOMETHING RASH
+```javascript
+var boots = new Number(42);
+boots.isAwesome = true;
+console.log(boots.isAwesome); // => true
+```
 
 If you want to know what's going on here, google "Primitive Wrapper Types".
 
@@ -152,11 +159,11 @@ If you want to know what's going on here, google "Primitive Wrapper Types".
 
 * What is an example of "continuous information"? (Re: "Any piece of discrete information can be reduced to a sequence of zeros and ones.")
 
-* Compute all the signed permutations of `5 mod 3` (above) in another language. Make a pull request on this repo to add your findings.
+* Compute all the signed permutations of `5 mod 3` (above) in another language. Make a pull request on this repo to add your findings, which *could* include a reverse-engineered version of said `mod` function.
 
 * [Read this post on how numbers are encoded in JS.](http://www.2ality.com/2012/04/number-encoding.html)
 
-* WHY TF does the `typeof null` bug exist? Do some research on your interent machine and add your findings to the repo.
+* WHY TF does the `typeof null` bug exist? Do some research on your interent machine and add a blurb to the repo.
 
 * Google "Primitive Wrapper Types", or ask me to borrow the `Nicholas Zakas` book on my desk... or just read the wonderful Angus Kroll's [post about them](https://javascriptweblog.wordpress.com/2010/09/27/the-secret-life-of-javascript-primitives/).
 
