@@ -56,6 +56,7 @@ function flattenHelper(prev, current) {
     return prev.concat(current);
 }
 
+console.log("\n*** Flatten ***");
 assert(deepEqual(flatten([[1,2],[3,4]]), [1,2,3,4]), "flatten");
 
 
@@ -88,13 +89,65 @@ function averageAgeDifference() {
     }
 }
 
+console.log("\n*** Mother-Child Age Difference ***");
+console.log(averageAgeDifference());
 
-// Historical Life Expectancy
 
+// Historical Life Expectancy [+ Bonus]
+function lifeExpectancy() {
+    var data = JSON.parse(ANCESTRY_FILE),
+        agesByCentury = groupBy(data, getCentury, getAge);
+
+    Object.keys(agesByCentury)
+        .forEach(function(key) {
+            agesByCentury[key] = average(agesByCentury[key]);
+        });
+
+    return agesByCentury;
+}
+
+function getCentury(person) {
+    return Math.ceil(person.died / 100);
+}
+
+function getAge(person) {
+    return person.died - person.born;
+}
+
+function groupBy(array, grouper, transform) {
+    transform = transform || identity;
+    return array.reduce(function(result, elt) {
+        var group = grouper(elt);
+        if (!result[group]) result[group] = [];
+        result[group].push(transform(elt));
+        return result;
+    }, {});
+}
+
+console.log("\n*** Life Expectancy ***");
+console.log(lifeExpectancy());
 
 // Every and Then Some
+function every(array, predicate) {
+    for (var i = 0; i < array.length; i++) {
+        if (!predicate(array[i])) return false;
+    }
+    return true;
+}
 
-console.log(averageAgeDifference());
+function some(array, predicate) {
+    for (var i = 0; i < array.length; i++) {
+        if (predicate(array[i])) return true;
+    }
+    return false;
+}
+
+console.log("\n*** Some and Every ***");
+assert(every([null, null], isNull), "every item in the array is null");
+assert(!every([null, 2], isNull), "every item in the array is not null");
+assert(some([null, 2], isNull), "some items in the array are null");
+assert(!some([2, 2], isNull), "none of the items in the array is null");
+
 
 // Helpers
 function isNull(n) {
@@ -107,6 +160,10 @@ function sum(a, b) {
 
 function average(array) {
     return array.reduce(sum) / array.length;
+}
+
+function identity(i) {
+    return i;
 }
 
 
