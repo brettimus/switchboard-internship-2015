@@ -9,15 +9,22 @@ var a;
 
 /* car and cat */
 a = /car|t/;
-assert(a.test("car") && a.test("cat"), "car and cat");
+assert(a.test("car") &&
+        a.test("cat"),
+        "car and cat");
 
 /* pop and prop */
 a = /pr?op/;
-assert(a.test("pop") && a.test("prop"), "pop and prop");
+assert(a.test("pop") &&
+        a.test("prop"),
+        "pop and prop");
 
 /* ferret, ferry, and ferrari */
 a = /ferr(et$|y$|ari$)/;
-assert(a.test("ferret") && a.test("ferry") && a.test("ferrari"), "ferret, ferry, and ferrari");
+assert(a.test("ferret") &&
+        a.test("ferry") &&
+        a.test("ferrari"),
+        "ferret, ferry, and ferrari");
 
 /* Any word ending in ious */
 a = /[a-z]*ious$/i;
@@ -28,7 +35,7 @@ assert(a.test("pious") &&
         "any word ending in ious");
 
 /* A whitespace character followed by a dot, comma, colon, or semicolon */
-a = /^\s[.,:;]/;
+a = /\s[.,:;]/;
 assert(a.test(" .") &&
         a.test("\r,") &&
         a.test("\n;") &&
