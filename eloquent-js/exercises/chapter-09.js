@@ -82,20 +82,31 @@ assert(b.replace(a, replacer) === c, "");
 
 
 // Numbers Again
+a = /^(\-|\+)?((\d*(\.)?\d+)|(\d+(\.)?\d*)|(\d+e(\-|\+)?\d+))$/;
 
-a = /([\-\+](\d*\.?\d+)|(\d+\.?\d*)|(\d+e[\-\+]?\d+))/;
+assert(a.test("1"), "1 is a number");
+assert(a.test("+1"), "+1 is a number");
+assert(!a.test("++1"), "++1 is not a number");
+assert(a.test("-1"), "-1 is a number");
 
-assert(a.test("1") &&
-        a.test("+1") &&
-        a.test("-1"), " 1, +1, -1 are numbers");
-assert(a.test(".1") &&
-        a.test("+.1") &&
-        a.test("-.1"), " .1, +.1, -.1 are numbers");
-assert(a.test("1.") &&
-        a.test("+1.") &&
-        a.test("-1."), " 1., +1., -1. are numbers");
 assert(!a.test("."), ". is not a number");
-assert(!a.test("1e"), "1e is not a number"); // this test is failing
+
+assert(a.test(".1"), ".1 is a number");
+assert(a.test("+.1"), "+.1 is a number");
+assert(a.test("-.1"), "-.1 is a number");
+assert(!a.test("--.1"), "--.1 is a number");
+
+assert(a.test("1."), "1. is a number");
+assert(a.test("+1."), "+1. is a number");
+assert(a.test("-1."), "-1. is a number");
+
+assert(!a.test("e"), "e is not a number (don't you dare say it is)");
+assert(!a.test("1e"), "1e is not a number");
+assert(!a.test("e1"), "e1 is not a number");
+
+assert(a.test("1e10"), "1e10 is a number");
+assert(a.test("1e-10"), "1e-10 is a number");
+
 
 
 // Testers
