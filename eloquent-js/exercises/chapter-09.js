@@ -2,7 +2,8 @@
 // Chapter 9 Exercises
 // regular expressions
 // boots
-var a;
+"use strict";
+var a, b, c, d;
 
 
 // Regexp Golf
@@ -60,6 +61,42 @@ assert(a.test("brAnks") &&
         !a.test("simple") &&
         !a.test("hello"),
         "A word without the letter e");
+
+
+// Quoting Style
+a = /\'.*\'([\s.,;:]|$)/;
+function replacer(match, suffix) {
+    suffix = suffix || "";
+    var endIndex = suffix ? -2 : -1;
+    return "\"" + match.slice(1, endIndex) + "\"" + suffix;
+}
+b = "'Hello there!'";
+c = '"Hello there!"';
+assert(b.replace(a, replacer) === c, "");
+b = "'Hello there!'  Ain't it strange.";
+c = '"Hello there!"  Ain\'t it strange.';
+assert(b.replace(a, replacer) === c, "");
+b = "'Hello there!', Ain't it strange.";
+c = '"Hello there!", Ain\'t it strange.';
+assert(b.replace(a, replacer) === c, "");
+
+
+// Numbers Again
+
+a = /([\-\+](\d*\.?\d+)|(\d+\.?\d*)|(\d+e[\-\+]?\d+))/;
+
+assert(a.test("1") &&
+        a.test("+1") &&
+        a.test("-1"), " 1, +1, -1 are numbers");
+assert(a.test(".1") &&
+        a.test("+.1") &&
+        a.test("-.1"), " .1, +.1, -.1 are numbers");
+assert(a.test("1.") &&
+        a.test("+1.") &&
+        a.test("-1."), " 1., +1., -1. are numbers");
+assert(!a.test("."), ". is not a number");
+assert(!a.test("1e"), "1e is not a number"); // this test is failing
+
 
 // Testers
 function assert(predicate, message) {
