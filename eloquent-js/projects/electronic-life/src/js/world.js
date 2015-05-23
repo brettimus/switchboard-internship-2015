@@ -26,6 +26,7 @@ function World(map, legend) {
 
 /**
  * @method
+ * @return {string}
  */
 World.prototype.toString = function() {
     var output = "",

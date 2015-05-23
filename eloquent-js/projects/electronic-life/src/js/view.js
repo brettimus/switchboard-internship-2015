@@ -18,7 +18,6 @@ function View(world, vector) {
 /**
  * @method
  * @param {string} direction
- *
  * @return {string}
  */
 View.prototype.look = function(dir) {
