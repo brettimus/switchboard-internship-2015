@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: grid.js</title>
+    <title>JSDoc: Source: action-types.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: grid.js</h1>
+    <h1 class="page-title">Source: action-types.js</h1>
 
     
 
@@ -26,83 +26,72 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>var Vector = require("./vector");
+            <pre class="prettyprint source linenums"><code>/** @module action-types */
 
-module.exports = Grid;
+var elementFromChar = require("./utilities").elementFromChar;
 
-/**
- * Represents a grid on which life exists
- *
- * @constructor
- * @param {number} width - Width of grid instance in ...units.
- * @param {number} height - Height of grid instance in ...units.
- * @property {string[]} space - The contents of a grid instance. Units.
- *
- */
-function Grid(width, height) {
-    this.width = width;
-    this.height = height;
-    this.space = new Array(width*height);
-}
+/** @namespace */
+var actionTypes = Object.create(null);
 
-/**
- * @method
- * @param {Vector} 
- * @return boolean
- */
-Grid.prototype.isInside = function(vector) {
-    return vector.x >= 0 &amp;&amp; vector.x &lt; this.width &amp;&amp;
-            vector.y >= 0 &amp;&amp; vector.y &lt; this.height;
+actionTypes.grow = function(critter) {
+    critter.energy += 0.5;
+    return true;
 };
 
 /**
  * @method
- * @param {Vector} vector - A coordinate
- * @return string
  */
-Grid.prototype.get = function(vector) {
-    var i = this._indexFromVector(vector);
-    return this.space[i];
-};
+actionTypes.move = function(critter, vector, action) {
+    var dest = this.checkDestination(action, vector);
 
-/**
- * @method
- * @param {Vector} vector
- * @param {string} value - Contents of a Grid square
- */
-Grid.prototype.set = function(vector, value) {
-    var i = this._indexFromVector(vector);
-    this.space[i] = value;
-};
-
- /**
-  * @method
-  * @param {function} f
-  * @param {object} context
-  */
-Grid.prototype.forEach = function(f, context) {
-    var x,
-        y;
-    for (y = 0; y &lt; this.height; y++) {
-      for (x = 0; x &lt; this.width; x++) {
-          var vector = new Vector(x, y),
-              i = this._indexFromVector(vector),
-              value = this.space[i];
-
-          if (value != null) f.call(context, value, vector);
-        }
+    if (dest == null ||
+            critter.energy &lt;= 1 ||
+            this.grid.get(dest) != null) {
+        return false;
     }
+    critter.energy -= 1;
+    this.grid.set(vector, null);
+    this.grid.set(dest, critter);
+    return true;
 };
 
- /**
-  * @method
-  * @access private
-  * @param {Vector} vector
-  * @return number
-  */
-  Grid.prototype._indexFromVector = function(vector) {
-    return vector.x + this.width * vector.y;
-  };</code></pre>
+/**
+ * @method
+ * @param {Critter} critter
+ * @param {Vector} vector
+ * @param {actionType} action
+ */
+actionTypes.eat = function(critter, vector, action) {
+    var dest = this.checkDestination(action, vector),
+        atDest = dest != null &amp;&amp; this.grid.get(dest);
+
+    if (!atDest || atDest.energy == null) {
+        return false;
+    }
+    critter.energy += atDest.energy;
+    this.grid.set(dest, null);
+    return true;
+};
+
+/**
+ * @method
+ */
+actionTypes.reproduce = function(critter, vector, action) {
+    var baby = elementFromChar(this.legend, critter.originChar),
+        dest = this.checkDestination(action, vector);
+
+    if (dest == null ||
+            critter.energy &lt;= 2 * baby.energy ||
+            this.grid.get(dest) != null) {
+        return false;
+    }
+
+    critter.energy -= (2 * baby.energy);
+    this.grid.set(dest, baby);
+    return true;
+};
+
+module.exports = actionTypes;</code></pre>
         </article>
     </section>
 

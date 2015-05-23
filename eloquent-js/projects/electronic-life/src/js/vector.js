@@ -1,5 +1,3 @@
-/** @module vector */
-
 module.exports = Vector;
 
 /**
@@ -15,10 +13,9 @@ function Vector(x, y) {
 }
 
 /**
- * @method plus
- * @instance
- * @this Vector
- * @ returns Vector
+ * @method
+ * @param {Vector} vector
+ * @returns {Vector}
  */
 Vector.prototype.plus = function plus(w) {
     return new Vector(this.x + w.x, this.y + w.y);

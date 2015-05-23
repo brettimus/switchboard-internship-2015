@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: grid.js</title>
+    <title>JSDoc: Source: lifelike-world.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: grid.js</h1>
+    <h1 class="page-title">Source: lifelike-world.js</h1>
 
     
 
@@ -26,83 +26,43 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>var Vector = require("./vector");
+            <pre class="prettyprint source linenums"><code>module.exports = LifelikeWorld;
 
-module.exports = Grid;
+var World = require("./world"),
+    View = require("./view"),
+    actionTypes = require("./action-types");
+
 
 /**
- * Represents a grid on which life exists
+ * Differentially Inherits from World.
  *
  * @constructor
- * @param {number} width - Width of grid instance in ...units.
- * @param {number} height - Height of grid instance in ...units.
- * @property {string[]} space - The contents of a grid instance. Units.
- *
+ * @augments World
+ * @param {string} map
+ * @param {object} legend - Map of strings to constructors
  */
-function Grid(width, height) {
-    this.width = width;
-    this.height = height;
-    this.space = new Array(width*height);
+function LifelikeWorld(map, legend) {
+    World.call(this, map, legend);
 }
+LifelikeWorld.prototype = Object.create(World.prototype);
 
 /**
  * @method
- * @param {Vector} 
- * @return boolean
- */
-Grid.prototype.isInside = function(vector) {
-    return vector.x >= 0 &amp;&amp; vector.x &lt; this.width &amp;&amp;
-            vector.y >= 0 &amp;&amp; vector.y &lt; this.height;
-};
-
-/**
- * @method
- * @param {Vector} vector - A coordinate
- * @return string
- */
-Grid.prototype.get = function(vector) {
-    var i = this._indexFromVector(vector);
-    return this.space[i];
-};
-
-/**
- * @method
+ * @param {Critter} critter
  * @param {Vector} vector
- * @param {string} value - Contents of a Grid square
  */
-Grid.prototype.set = function(vector, value) {
-    var i = this._indexFromVector(vector);
-    this.space[i] = value;
-};
-
- /**
-  * @method
-  * @param {function} f
-  * @param {object} context
-  */
-Grid.prototype.forEach = function(f, context) {
-    var x,
-        y;
-    for (y = 0; y &lt; this.height; y++) {
-      for (x = 0; x &lt; this.width; x++) {
-          var vector = new Vector(x, y),
-              i = this._indexFromVector(vector),
-              value = this.space[i];
-
-          if (value != null) f.call(context, value, vector);
+LifelikeWorld.prototype.letAct = function(critter, vector) {
+    var action = critter.act(new View(this, vector)),
+        handled = action &amp;&amp;
+                    action.type in actionTypes &amp;&amp;
+                    actionTypes[action.type].call(this, critter, vector, action);
+    if (handled) {
+        critter.energy -= 0.2;
+        if (critter.energy &lt;= 0) {
+            this.grid.set(vector, null);
         }
     }
-};
-
- /**
-  * @method
-  * @access private
-  * @param {Vector} vector
-  * @return number
-  */
-  Grid.prototype._indexFromVector = function(vector) {
-    return vector.x + this.width * vector.y;
-  };</code></pre>
+};</code></pre>
         </article>
     </section>
 

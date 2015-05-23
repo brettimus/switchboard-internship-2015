@@ -1,5 +1,3 @@
-/** @module grid */
-
 var Vector = require("./vector");
 
 module.exports = Grid;
@@ -20,9 +18,7 @@ function Grid(width, height) {
 }
 
 /**
- * @method isInside
- * @instance
- * @this Grid
+ * @method
  * @param {Vector} 
  * @return boolean
  */
@@ -32,9 +28,7 @@ Grid.prototype.isInside = function(vector) {
 };
 
 /**
- * @method get
- * @instance
- * @this Grid
+ * @method
  * @param {Vector} vector - A coordinate
  * @return string
  */
@@ -44,9 +38,7 @@ Grid.prototype.get = function(vector) {
 };
 
 /**
- * @method set
- * @instance
- * @this Grid
+ * @method
  * @param {Vector} vector
  * @param {string} value - Contents of a Grid square
  */
@@ -56,9 +48,7 @@ Grid.prototype.set = function(vector, value) {
 };
 
  /**
-  * @method forEach
-  * @instance
-  * @this Grid
+  * @method
   * @param {function} f
   * @param {object} context
   */
@@ -77,9 +67,7 @@ Grid.prototype.forEach = function(f, context) {
 };
 
  /**
-  * @method _indexFromVector
-  * @instance
-  * @this Grid
+  * @method
   * @access private
   * @param {Vector} vector
   * @return number

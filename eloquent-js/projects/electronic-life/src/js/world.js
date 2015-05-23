@@ -1,5 +1,3 @@
-/** @module world */
-
 module.exports = World;
 
 var Grid = require("./grid"),
@@ -10,13 +8,10 @@ var Grid = require("./grid"),
     charFromElement = require("./utilities").charFromElement;
 
 /**
- * @function elementFromChar
- * @param {object} legend - Object containing constructors for a character
- * @param {string} ch - A character that can be placed on the world's grid
- * @property {Grid} grid
+ * @constructor
+ * @param {string} map
+ * @param {Object} legend
  */
-
-
 function World(map, legend) {
     var grid = new Grid(map[0].length, map.length);
     this.grid = grid;
@@ -29,6 +24,9 @@ function World(map, legend) {
     });
 }
 
+/**
+ * @method
+ */
 World.prototype.toString = function() {
     var output = "",
         x,
@@ -43,6 +41,9 @@ World.prototype.toString = function() {
     return output;
 };
 
+/**
+ * @method
+ */
 World.prototype.turn = function() {
     var acted = [];
     this.grid.forEach(function(critter, vector) {
@@ -53,6 +54,11 @@ World.prototype.turn = function() {
     }, this);
 };
 
+/**
+ * @method
+ * @param {Critter} critter
+ * @param {Vector} vector
+ */
 World.prototype.letAct = function(critter, vector) {
     var action = critter.act(new View(this, vector));
     if (action && action.type === "move") {
@@ -64,6 +70,11 @@ World.prototype.letAct = function(critter, vector) {
     }
 };
 
+/**
+ * @method
+ * @param {actionType} action
+ * @param {Vector} vector
+ */
 World.prototype.checkDestination = function(action, vector) {
     var dest;
     if (directions.hasOwnProperty(action.direction)) {

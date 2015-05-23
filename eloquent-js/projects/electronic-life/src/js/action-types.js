@@ -2,6 +2,7 @@
 
 var elementFromChar = require("./utilities").elementFromChar;
 
+/** @namespace */
 var actionTypes = Object.create(null);
 
 actionTypes.grow = function(critter) {
@@ -10,7 +11,7 @@ actionTypes.grow = function(critter) {
 };
 
 /**
- * @this LifelikeWorld
+ * @method
  */
 actionTypes.move = function(critter, vector, action) {
     var dest = this.checkDestination(action, vector);
@@ -27,7 +28,10 @@ actionTypes.move = function(critter, vector, action) {
 };
 
 /**
- * @this LifelikeWorld
+ * @method
+ * @param {Critter} critter
+ * @param {Vector} vector
+ * @param {actionType} action
  */
 actionTypes.eat = function(critter, vector, action) {
     var dest = this.checkDestination(action, vector),
@@ -42,7 +46,7 @@ actionTypes.eat = function(critter, vector, action) {
 };
 
 /**
- * @this LifelikeWorld
+ * @method
  */
 actionTypes.reproduce = function(critter, vector, action) {
     var baby = elementFromChar(this.legend, critter.originChar),
@@ -54,7 +58,7 @@ actionTypes.reproduce = function(critter, vector, action) {
         return false;
     }
 
-    critter.energy -= 2 * baby.energy;
+    critter.energy -= (2 * baby.energy);
     this.grid.set(dest, baby);
     return true;
 };

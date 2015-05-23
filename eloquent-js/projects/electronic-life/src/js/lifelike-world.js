@@ -5,12 +5,24 @@ var World = require("./world"),
     actionTypes = require("./action-types");
 
 
+/**
+ * Differentially Inherits from World.
+ *
+ * @constructor
+ * @augments World
+ * @param {string} map
+ * @param {object} legend - Map of strings to constructors
+ */
 function LifelikeWorld(map, legend) {
     World.call(this, map, legend);
 }
 LifelikeWorld.prototype = Object.create(World.prototype);
 
-
+/**
+ * @method
+ * @param {Critter} critter
+ * @param {Vector} vector
+ */
 LifelikeWorld.prototype.letAct = function(critter, vector) {
     var action = critter.act(new View(this, vector)),
         handled = action &&

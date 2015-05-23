@@ -13,6 +13,18 @@ var randomElement = require("./utilities").randomElement,
 
 /**
  * @constructor
+ */
+function Critter() {}
+
+/**
+ * @abstract
+ */
+Critter.prototype.act = function(view) {
+    throw new Error("act must be implemented by subclass");
+};
+
+/**
+ * @constructor
  * @property {string} direction - The current direction...? 
  */
 function BouncingCritter() {
@@ -20,8 +32,7 @@ function BouncingCritter() {
 }
 
 /**
- * @method act
- * @this BouncingCritter
+ * @method
  * @param {View} view
  */
 BouncingCritter.prototype.act = function(view) {
@@ -34,15 +45,14 @@ BouncingCritter.prototype.act = function(view) {
 
 /** 
  * @constructor
- *
+ * @property {string} direction
  */
 function WallFollower() {
     this.dir = "s";
 }
 
 /**
- * @method act
- * @this WallFollower
+ * @method
  * @param {View} view
  */
 WallFollower.prototype.act = function(view) {
@@ -67,8 +77,7 @@ function Plant() {
 }
 
 /**
- * @method act
- * @this Plant
+ * @method
  * @param {object} context
  */
 Plant.prototype.act = function(context) {
@@ -95,8 +104,7 @@ function PlantEater() {
 }
 
 /**
- * @method act
- * @this PlantEater
+ * @method
  * @param {object} context
  */
 PlantEater.prototype.act = function(context) {

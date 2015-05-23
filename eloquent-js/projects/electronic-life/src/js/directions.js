@@ -1,8 +1,14 @@
 /** @module directions */
 var Vector = require("./vector");
 
+/**
+ * @static
+ */
 var directionNames = "n ne e se s sw w nw".split(" ");
 
+/**
+ * @static
+ */
 module.exports.directions = {
     "n": new Vector(0, -1),
     "ne": new Vector(1, -1),
@@ -16,6 +22,12 @@ module.exports.directions = {
 
 module.exports.names = directionNames;
 
+/**
+ * @function dirPlus
+ * @access public
+ * @param {string} dir
+ * @param {number} n
+ */
 module.exports.dirPlus = function(dir, n) {
     var index = directionNames.indexOf(dir);
     return directionNames[(index + n + 8) % 8];

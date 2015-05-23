@@ -1,16 +1,26 @@
-/** @module view */
-
 var directions = require("./directions").directions,
     charFromElement = require("./utilities").charFromElement,
     randomElement = require("./utilities").randomElement;
 
 module.exports = View;
 
+
+/**
+ * @constructor
+ * @param {World} world
+ * @param {Vector} vector
+ */
 function View(world, vector) {
     this.world = world;
     this.vector = vector;
 }
 
+/**
+ * @method
+ * @param {string} direction
+ *
+ * @return {string}
+ */
 View.prototype.look = function(dir) {
     var target = this.vector.plus(directions[dir]);
     if (this.world.grid.isInside(target)) {
@@ -21,6 +31,11 @@ View.prototype.look = function(dir) {
     }
 };
 
+/**
+ * @method
+ * @param {string} ch
+ * @return {string[]}
+ */
 View.prototype.findAll = function(ch) {
     var found = [],
         dir;
@@ -32,6 +47,11 @@ View.prototype.findAll = function(ch) {
     return found;
 };
 
+/**
+ * @method
+ * @param {string} ch
+ * @return {string}
+ */
 View.prototype.find = function(ch) {
     var found = this.findAll(ch);
     if (found.length === 0) return null;
