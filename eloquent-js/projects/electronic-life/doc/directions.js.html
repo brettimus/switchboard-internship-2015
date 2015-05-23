@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: vector.js</title>
+    <title>JSDoc: Source: directions.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: vector.js</h1>
+    <h1 class="page-title">Source: directions.js</h1>
 
     
 
@@ -26,31 +26,21 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/** @module vector */
+            <pre class="prettyprint source linenums"><code>/** @module directions */
+var Vector = require("./vector");
 
-module.exports = Vector;
+module.exports.directions = {
+    "n": new Vector(0, -1),
+    "ne": new Vector(1, -1),
+    "e": new Vector(1, 0),
+    "se": new Vector(1, 1),
+    "s": new Vector(0, 1),
+    "sw": new Vector(-1, 1),
+    "w": new Vector(-1, 0),
+    "nw": new Vector(-1, -1),
+};
 
-/**
- * Creates a vector representing cartesian coordinates
- *
- * @constructor
- * @param {number} x - Cartesian x-coordinate
- * @param {number} y - Cartesian y-coordinate
- */
-function Vector(x, y) {
-    this.x = x;
-    this.y = y;
-}
-
-/**
- * @method plus
- * @instance
- * @this Vector
- * @ returns Vector
- */
-Vector.prototype.plus = function plus(w) {
-    return new Vector(this.x + w.x, this.y + w.y);
-};</code></pre>
+module.exports.names = "n ne e se s sw w nw".split(" ");</code></pre>
         </article>
     </section>
 

@@ -1,5 +1,7 @@
 /** @module grid */
 
+var Vector = require("./vector");
+
 module.exports = Grid;
 
 /**
@@ -37,9 +39,9 @@ Grid.prototype.isInside = function(vector) {
  * @return string
  */
 Grid.prototype.get = function(vector) {
-    return this.space[this._indexFromVector(vector)];
+    var i = this._indexFromVector(vector);
+    return this.space[i];
 };
-
 
 /**
  * @method set
@@ -48,9 +50,31 @@ Grid.prototype.get = function(vector) {
  * @param {Vector} vector
  * @param {string} value - Contents of a Grid square
  */
- Grid.prototype.set = function(vector, value) {
-     this.space[this._indexFromVector(vector)] = value;
- };
+Grid.prototype.set = function(vector, value) {
+    var i = this._indexFromVector(vector);
+    this.space[i] = value;
+};
+
+ /**
+  * @method forEach
+  * @instance
+  * @this Grid
+  * @param {function} f
+  * @param {object} context
+  */
+Grid.prototype.forEach = function(f, context) {
+    var x,
+        y;
+    for (y = 0; y < this.height; y++) {
+      for (x = 0; x < this.width; x++) {
+          var vector = new Vector(x, y),
+              i = this._indexFromVector(vector),
+              value = this.space[i];
+
+          if (value != null) f.call(context, value, vector);
+        }
+    }
+};
 
  /**
   * @method _indexFromVector
@@ -61,5 +85,5 @@ Grid.prototype.get = function(vector) {
   * @return number
   */
   Grid.prototype._indexFromVector = function(vector) {
-      return vector.x + this.width + vector.y;
+    return vector.x + this.width * vector.y;
   };

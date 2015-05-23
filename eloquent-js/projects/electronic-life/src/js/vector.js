@@ -1,4 +1,5 @@
 /** @module vector */
+
 module.exports = Vector;
 
 /**
@@ -9,7 +10,7 @@ module.exports = Vector;
  * @param {number} y - Cartesian y-coordinate
  */
 function Vector(x, y) {
-    this.x = y;
+    this.x = x;
     this.y = y;
 }
 
@@ -20,5 +21,5 @@ function Vector(x, y) {
  * @ returns Vector
  */
 Vector.prototype.plus = function plus(w) {
-    return new Vector(this.x + w.x, this.y + other.y);
+    return new Vector(this.x + w.x, this.y + w.y);
 };
