@@ -2,7 +2,7 @@
 // Chapter 8 Exercises
 // Bugs and Error Handling
 // boots
-var a;
+var a, b;
 
 // Retry
 function MultiplyUnitFailure(message) {
@@ -19,19 +19,23 @@ function primitiveMultiply(a, b) {
 }
 
 function primitiveMultiplyWrapper(a, b) {
+    var result;
     try {
-        primitiveMultiply(a, b);
+        result = primitiveMultiply(a, b);
     }
     catch (e) {
         if (e.name === "MultiplyUnitFailure") {
-            primitiveMultiplyWrapper(a,b);
+            result = primitiveMultiplyWrapper(a,b);
         }
+    }
+    finally {
+        return result;
     }
 }
 
-a = 10;
+a = b = 10;
 while (a--) {
-    primitiveMultiplyWrapper(0, 0);
+    assert(primitiveMultiplyWrapper(0, 0) === 0, "Attempt "+(b-a)+" of primitiveMultiplyWrapper");
 }
 
 
