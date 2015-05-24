@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Vector</title>
+    <title>JSDoc: Class: SmarterPlantEater</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Vector</h1>
+    <h1 class="page-title">Class: SmarterPlantEater</h1>
 
     
 
@@ -29,7 +29,9 @@
 <header>
     
         <h2>
-        Vector
+            <span class="ancestors"><a href="module-critters.html">critters</a>~</span>
+        
+        SmarterPlantEater
         </h2>
         
     
@@ -42,15 +44,12 @@
 
     
 
-    <h4 class="name" id="Vector"><span class="type-signature"></span>new Vector<span class="signature">(x, y)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="SmarterPlantEater"><span class="type-signature"></span>new SmarterPlantEater<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
-<div class="description">
-    A set of (x,y) coordinates in space.
-</div>
 
 
 
@@ -60,10 +59,14 @@
 
 
 
-    <h5>Parameters:</h5>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
     
 
-<table class="params">
+<table class="props">
     <thead>
     <tr>
         
@@ -85,7 +88,7 @@
 
         <tr>
             
-                <td class="name"><code>x</code></td>
+                <td class="name"><code>energy</code></td>
             
 
             <td class="type">
@@ -101,37 +104,12 @@
 
             
 
-            <td class="description last">x-coordinate</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>y</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">y-coordinate</td>
+            <td class="description last"></td>
         </tr>
 
     
     </tbody>
 </table>
-
-
 
 
 
@@ -149,6 +127,13 @@
     
 
     
+    <dt class="implements">Implements:</dt>
+    <dd class="implements"><ul>
+        
+            <li>Critter</li>
+        
+    </ul></dd>
+    
 
     
 
@@ -165,7 +150,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="vector.js.html">vector.js</a>, <a href="vector.js.html#line9">line 9</a>
+        <a href="critters.js.html">critters.js</a>, <a href="critters.js.html#line155">line 155</a>
     </li></ul></dd>
     
 
@@ -214,14 +199,15 @@
 
     
 
-    <h4 class="name" id="plus"><span class="type-signature"></span>plus<span class="signature">(vector)</span><span class="type-signature"> &rarr; {<a href="Vector.html">Vector</a>}</span></h4>
+    <h4 class="name" id="act"><span class="type-signature"></span>act<span class="signature">(context)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Vector addition. Returns a new Vector that is the result of adding another Vector to the calling Vector object.
+    A SmarterPlantEater can either reproduce, eat, or move during its turn. 
+Unlike a PlantEater, its movements are not entirely random.
 </div>
 
 
@@ -257,13 +243,13 @@
 
         <tr>
             
-                <td class="name"><code>vector</code></td>
+                <td class="name"><code>context</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="Vector.html">Vector</a></span>
+<span class="param-type"><a href="View.html">View</a></span>
 
 
             
@@ -314,7 +300,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="vector.js.html">vector.js</a>, <a href="vector.js.html#line20">line 20</a>
+        <a href="critters.js.html">critters.js</a>, <a href="critters.js.html#line167">line 167</a>
     </li></ul></dd>
     
 
@@ -337,24 +323,6 @@
 
 
 
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="Vector.html">Vector</a></span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 

@@ -1,6 +1,7 @@
 var directions = require("./directions").directions,
     charFromElement = require("./utilities").charFromElement,
-    randomElement = require("./utilities").randomElement;
+    randomElement = require("./utilities").randomElement,
+    isNully = require("./utilities").isNully;
 
 module.exports = View;
 
@@ -36,7 +37,7 @@ View.prototype.look = function(dir) {
  * Returns the directions corresponding to all neighboring instances of a character.
  * @method
  * @param {string} ch
- * @return {string[]}
+ * @return {string[]} - Array of directions.
  */
 View.prototype.findAll = function(ch) {
     var found = [],
@@ -59,6 +60,29 @@ View.prototype.findAll = function(ch) {
  */
 View.prototype.find = function(ch) {
     var found = this.findAll(ch);
+    if (found.length === 0) return null;
+    return randomElement(found);
+};
+
+/**
+ * Looks within a one-square-radius for square with a particular value. 
+ * @method
+ * @param {string} ch
+ * @return {string} direction
+ */
+View.prototype.findNearby = function(ch) {
+    var found;
+    // Find all spaces into which we could move
+    found = this.findAll(" ").filter(function(dir) {
+        // Calculate the position of the open space
+        // Create a new view based off of said position
+        var foundPosition = this.vector.plus(directions[dir]),
+            foundView = new View(this.world, foundPosition);
+
+        // If the new position is adjacent to a `ch`, return true
+        return !isNully(foundView.find(ch));
+    }.bind(this));
+    
     if (found.length === 0) return null;
     return randomElement(found);
 };

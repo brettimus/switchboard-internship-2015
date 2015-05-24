@@ -4,6 +4,7 @@ module.exports = {
     WallFollower: WallFollower,
     Plant: Plant,
     PlantEater: PlantEater,
+    SmarterPlantEater: SmarterPlantEater,
 };
 
 var randomElement = require("./utilities").randomElement,
@@ -97,7 +98,7 @@ Plant.prototype = Object.create(Critter.prototype);
 /**
  * A Plant can either grow or reproduce during its turn.
  * @method
- * @param {object} context
+ * @param {View} context
  */
 Plant.prototype.act = function(context) {
     var space;
@@ -128,7 +129,7 @@ PlantEater.prototype = Object.create(Critter.prototype);
 /**
  * A PlantEater can either reproduce, eat, or move during its turn.
  * @method
- * @param {Object} context - The surroundings of a PlantEater?
+ * @param {View} context - The surroundings of a PlantEater?
  */
 PlantEater.prototype.act = function(context) {
     var space = context.find(" "),
@@ -151,27 +152,37 @@ PlantEater.prototype.act = function(context) {
  * @implements Critter
  * @property {number} energy
  */
-function SmartPlantEater() {
+function SmarterPlantEater() {
     Critter.call(this);
     this.energy = 20;
 }
-SmartPlantEater.prototype = Object.create(Critter.prototype);
+SmarterPlantEater.prototype = Object.create(Critter.prototype);
 
 /**
- * A SmartPlantEater can either reproduce, eat, or move during its turn.
+ * A SmarterPlantEater can either reproduce, eat, or move during its turn. 
+ * Unlike a PlantEater, its movements are not entirely random. 
  * @method
- * @param {Object} context
+ * @param {View} context
  */
-SmartPlantEater.prototype.act = function(context) {
-    var space = context.find(" "),
-        plant;
-    if (this.energy > 60 && space) {
-        return {type: "reproduce", direction: space};
-    }
-    plant = context.find("*");
+SmarterPlantEater.prototype.act = function(context) {
+    var plant = context.find("*"),
+        spaceNearPlant,
+        space;
+
     if (plant) {
         return {type: "eat", direction: plant};
     }
+
+    spaceNearPlant = context.findNearby("*");
+    if (spaceNearPlant) {
+        return {type: "move", direction: spaceNearPlant};
+    }
+
+    space = context.find(" ");
+    if (this.energy > 60 && space) {
+        return {type: "reproduce", direction: space};
+    }
+
     if (space) {
         return {type: "move", direciton: space};
     }
