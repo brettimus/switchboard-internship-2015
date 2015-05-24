@@ -2,6 +2,11 @@
 // Chapter 7 Exercises
 // boots
 
+// There is a `#simulateSlowly` function in the project files' `utilities` module.
+// I found this function indispensable for debugging.
+// (E.g., I had accidentally misspelled "direction" as "direciton" when returning my new critters' move actions...
+//        doing a slow simulation helped me find that bug, because I saw they were not moving.)
+
 // Artificial Stupidity (open-ended)
 
 // I created a plant-eating critter with better sight (SmarterPlantEater). 
@@ -70,7 +75,7 @@ SmarterPlantEater.prototype.act = function(context) {
     }
 
     if (space) {
-        return {type: "move", direciton: space};
+        return {type: "move", direction: space};
     }
 };
 
@@ -84,3 +89,38 @@ SmarterPlantEater.prototype.act = function(context) {
 
 
 // Predators
+/** 
+ * A Critter that eats PlantEaters. :'(
+ * @constructor
+ * @implements Critter
+ * @property {number} energy
+ */
+function Predator() {
+    Critter.call(this);
+    this.energy = 30;
+}
+Predator.prototype = Object.create(Critter.prototype);
+
+/**
+ * A Predator can either reproduce, eat a PlantEater, or move during its turn.
+ * @method
+ * @param {View} context
+ */
+Predator.prototype.act = function(context) {
+    var plantEater = context.find("O"),
+        space;
+
+    if (plantEater) {
+        return {type: "eat", direction: plantEater};
+    }
+
+    space = context.find(" ");
+    if (this.energy > 90 && space) {
+        return {type: "reproduce", direction: space};
+    }
+
+    if (space) {
+        return {type: "move", direction: space};
+    }
+
+};
