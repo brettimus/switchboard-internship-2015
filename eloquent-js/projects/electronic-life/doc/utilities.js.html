@@ -27,7 +27,7 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/** @module utilities */
-
+var Promise = require("es6-promise").Promise;
 /**
  * Uniformly samples a random element from an Array.
  * @function randomElement
@@ -73,7 +73,97 @@ module.exports.elementFromChar = function elementFromChar(legend, ch) {
 module.exports.charFromElement = function charFromElement(element) {
     if (isNully(element)) return " ";
     return element.originChar;
-};</code></pre>
+};
+
+
+/**
+ * Runs a human-observable simulation of a given World.
+ * @function
+ * @param {World} world - World to simulate
+ * @param {object} options - Configuration for simulation
+ */
+module.exports.simulateSlowly = simulateSlowly;
+
+function simulateSlowly(world, options) {
+
+    var config = {
+            /**
+             * @property {number} simulations - The number of times we should call World#turn 
+             * @property {number} wait - The amount of time (in ms) to wait between printing World.toString();
+             */
+          simulations: 100,
+          wait: 2000,
+        },
+        simulationPromise;
+    extend2(config, options);
+
+    simulationPromise = new Promise(simulation);
+    simulationPromise.then(success, failure);
+
+    function simulation(resolve, reject) {
+        var count = 1;
+        setInterval(function() {
+            simulate(count, resolve, reject);
+            count++;
+        }, config.wait);
+    }
+
+    function simulate(count, resolve, reject) {
+        var message,
+            simError;
+        if (count > config.simulations) {
+              resolve(">>> Simulation complete!");
+        }
+        else {
+            try {
+                console.log(world.toString());
+                world.turn();
+            } catch (err) {
+                message = "Simulation failed on turn number " + count + ".";
+                simError = new SimulationError(err, message);
+                reject();
+            }
+        }
+    }
+}
+
+
+function success(message) {
+    console.log(message);
+}
+
+function failure(err) {
+    console.log("Simulation failure. Here's the error: ", err);
+}
+
+function extend2(destination, source) {
+    // Use Object.assign if our environment allows it.
+    if (Object.assign) {
+        return Object.assign(destination, source);
+    }
+    // thanks be to angus kroll
+    // https://javascriptweblog.wordpress.com/2011/05/31/a-fresh-look-at-javascript-mixins/
+    for (var k in source) {
+        if (source.hasOwnProperty(k)) {
+          destination[k] = source[k];
+        }
+    }
+    return destination;
+}
+
+/**
+ * @constructor
+ * @extends Error
+ * @param {Error} err - Original error
+ * @param {String} message - New message
+ */
+function SimulationError(err, message) {
+    this.message = message + "\n Original Error message: " + err.message + "\n";
+    this.stack = err.stack;
+}
+SimulationError.prototype = Object.create(Error.prototype);
+SimulationError.prototype.name = "SimulationError";
+</code></pre>
         </article>
     </section>
 
@@ -83,13 +173,13 @@ module.exports.charFromElement = function charFromElement(element) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-action-types.html">action-types</a></li><li><a href="module-critters.html">critters</a></li><li><a href="module-directions.html">directions</a></li><li><a href="module-utilities.html">utilities</a></li></ul><h3>Classes</h3><ul><li><a href="Grid.html">Grid</a></li><li><a href="LifelikeWorld.html">LifelikeWorld</a></li><li><a href="module-critters-BouncingCritter.html">BouncingCritter</a></li><li><a href="module-critters-Plant.html">Plant</a></li><li><a href="module-critters-PlantEater.html">PlantEater</a></li><li><a href="module-critters-SmarterPlantEater.html">SmarterPlantEater</a></li><li><a href="module-critters-WallFollower.html">WallFollower</a></li><li><a href="Vector.html">Vector</a></li><li><a href="View.html">View</a></li><li><a href="Wall.html">Wall</a></li><li><a href="World.html">World</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-action-types-actionTypes.html">actionTypes</a></li></ul><h3>Interfaces</h3><ul><li><a href="module-critters-Critter.html">Critter</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-action-types.html">action-types</a></li><li><a href="module-critters.html">critters</a></li><li><a href="module-directions.html">directions</a></li><li><a href="module-utilities.html">utilities</a></li></ul><h3>Classes</h3><ul><li><a href="Grid.html">Grid</a></li><li><a href="LifelikeWorld.html">LifelikeWorld</a></li><li><a href="module-critters-BouncingCritter.html">BouncingCritter</a></li><li><a href="module-critters-Plant.html">Plant</a></li><li><a href="module-critters-PlantEater.html">PlantEater</a></li><li><a href="module-critters-Predator.html">Predator</a></li><li><a href="module-critters-SmarterPlantEater.html">SmarterPlantEater</a></li><li><a href="module-critters-WallFollower.html">WallFollower</a></li><li><a href="module-utilities-SimulationError.html">SimulationError</a></li><li><a href="Vector.html">Vector</a></li><li><a href="View.html">View</a></li><li><a href="Wall.html">Wall</a></li><li><a href="World.html">World</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-action-types-actionTypes.html">actionTypes</a></li></ul><h3>Interfaces</h3><ul><li><a href="module-critters-Critter.html">Critter</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0</a> on Sat May 23 2015 18:32:33 GMT-0700 (PDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0</a> on Sat May 23 2015 19:43:36 GMT-0700 (PDT)
 </footer>
 
 <script> prettyPrint(); </script>
