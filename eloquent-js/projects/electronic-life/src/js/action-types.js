@@ -1,6 +1,7 @@
 /** @module action-types */
 
-var elementFromChar = require("./utilities").elementFromChar;
+var elementFromChar = require("./utilities").elementFromChar,
+    isNully = require("./utilities").isNully;
 
 /** @namespace */
 var actionTypes = Object.create(null);
@@ -12,13 +13,16 @@ actionTypes.grow = function(critter) {
 
 /**
  * @method
+ * @param {Critter} critter
+ * @param {Vector} vector
+ * @param {Action} action
  */
 actionTypes.move = function(critter, vector, action) {
     var dest = this.checkDestination(action, vector);
 
-    if (dest == null ||
+    if (isNully(dest) ||
             critter.energy <= 1 ||
-            this.grid.get(dest) != null) {
+            !isNully(this.grid.get(dest))) {
         return false;
     }
     critter.energy -= 1;
@@ -31,13 +35,13 @@ actionTypes.move = function(critter, vector, action) {
  * @method
  * @param {Critter} critter
  * @param {Vector} vector
- * @param {actionType} action
+ * @param {Action} action
  */
 actionTypes.eat = function(critter, vector, action) {
     var dest = this.checkDestination(action, vector),
-        atDest = dest != null && this.grid.get(dest);
+        atDest = !isNully(dest) && this.grid.get(dest);
 
-    if (!atDest || atDest.energy == null) {
+    if (!atDest || isNully(atDest.energy)) {
         return false;
     }
     critter.energy += atDest.energy;
@@ -46,15 +50,20 @@ actionTypes.eat = function(critter, vector, action) {
 };
 
 /**
+ * Asexually reproduces the given Critter and takes away half of the Critter.energy property.
+ * If there is no space for the baby to be born or the parent does not have enough energy, the action fails.
  * @method
+ * @param {Critter} critter
+ * @param {Vector} vector
+ * @param {Action} action
  */
 actionTypes.reproduce = function(critter, vector, action) {
     var baby = elementFromChar(this.legend, critter.originChar),
         dest = this.checkDestination(action, vector);
 
-    if (dest == null ||
+    if (isNully(dest) ||
             critter.energy <= 2 * baby.energy ||
-            this.grid.get(dest) != null) {
+            !isNully(this.grid.get(dest))) {
         return false;
     }
 

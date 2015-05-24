@@ -48,6 +48,10 @@
 
 
 
+<div class="description">
+    A basic World that is built to handle movement of its creatures.
+</div>
+
 
 
 
@@ -87,7 +91,84 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">Array.&lt;string></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">An array of strings. Each string represent a row of squares in the world</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>legend</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">An object that tells us what each character in a map means. Contains a constructor for every charater, except for empty space (" "), which is assumed to be null.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>grid</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Grid.html">Grid</a></span>
 
 
             
@@ -130,8 +211,6 @@
 
 
 
-
-
 <dl class="details">
 
     
@@ -161,7 +240,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="world.js.html">world.js</a>, <a href="world.js.html#line15">line 15</a>
+        <a href="world.js.html">world.js</a>, <a href="world.js.html#line19">line 19</a>
     </li></ul></dd>
     
 
@@ -210,7 +289,7 @@
 
     
 
-    <h4 class="name" id="checkDestination"><span class="type-signature"></span>checkDestination<span class="signature">(action, vector)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="checkDestination"><span class="type-signature">(private) </span>checkDestination<span class="signature">(action, vector)</span><span class="type-signature"></span></h4>
 
     
 
@@ -255,7 +334,7 @@
             <td class="type">
             
                 
-<span class="param-type">actionType</span>
+<span class="param-type">Action</span>
 
 
             
@@ -329,7 +408,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="world.js.html">world.js</a>, <a href="world.js.html#line78">line 78</a>
+        <a href="world.js.html">world.js</a>, <a href="world.js.html#line92">line 92</a>
     </li></ul></dd>
     
 
@@ -360,11 +439,15 @@
 
     
 
-    <h4 class="name" id="letAct"><span class="type-signature"></span>letAct<span class="signature">(critter, vector)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="letAct"><span class="type-signature">(private) </span>letAct<span class="signature">(critter, vector)</span><span class="type-signature"></span></h4>
 
     
 
 
+
+<div class="description">
+    Contains logic that allows critter to move. Ignores nonsensical input.
+</div>
 
 
 
@@ -479,7 +562,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="world.js.html">world.js</a>, <a href="world.js.html#line62">line 62</a>
+        <a href="world.js.html">world.js</a>, <a href="world.js.html#line75">line 75</a>
     </li></ul></dd>
     
 
@@ -510,11 +593,15 @@
 
     
 
-    <h4 class="name" id="toString"><span class="type-signature"></span>toString<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="toString"><span class="type-signature"></span>toString<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
 
+
+<div class="description">
+    Creates a human-readable representation of the World.grid property.
+</div>
 
 
 
@@ -557,7 +644,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="world.js.html">world.js</a>, <a href="world.js.html#line30">line 30</a>
+        <a href="world.js.html">world.js</a>, <a href="world.js.html#line36">line 36</a>
     </li></ul></dd>
     
 
@@ -580,6 +667,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -594,6 +699,11 @@
 
 
 
+<div class="description">
+    Gives all Critter objects a chance to Critter#act,
+and updates the World.grid to reflect their actions.
+</div>
+
 
 
 
@@ -635,7 +745,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="world.js.html">world.js</a>, <a href="world.js.html#line47">line 47</a>
+        <a href="world.js.html">world.js</a>, <a href="world.js.html#line55">line 55</a>
     </li></ul></dd>
     
 
@@ -677,13 +787,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-action-types.html">action-types</a></li><li><a href="module-critters.html">critters</a></li><li><a href="module-directions.html">directions</a></li><li><a href="module-utilities.html">utilities</a></li></ul><h3>Classes</h3><ul><li><a href="Grid.html">Grid</a></li><li><a href="LifelikeWorld.html">LifelikeWorld</a></li><li><a href="module-critters-BouncingCritter.html">BouncingCritter</a></li><li><a href="module-critters-Critter.html">Critter</a></li><li><a href="module-critters-Plant.html">Plant</a></li><li><a href="module-critters-PlantEater.html">PlantEater</a></li><li><a href="module-critters-WallFollower.html">WallFollower</a></li><li><a href="Vector.html">Vector</a></li><li><a href="View.html">View</a></li><li><a href="World.html">World</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-action-types-actionTypes.html">actionTypes</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-action-types.html">action-types</a></li><li><a href="module-critters.html">critters</a></li><li><a href="module-directions.html">directions</a></li><li><a href="module-utilities.html">utilities</a></li></ul><h3>Classes</h3><ul><li><a href="Grid.html">Grid</a></li><li><a href="LifelikeWorld.html">LifelikeWorld</a></li><li><a href="module-critters-BouncingCritter.html">BouncingCritter</a></li><li><a href="module-critters-Plant.html">Plant</a></li><li><a href="module-critters-PlantEater.html">PlantEater</a></li><li><a href="module-critters-SmartPlantEater.html">SmartPlantEater</a></li><li><a href="module-critters-WallFollower.html">WallFollower</a></li><li><a href="Vector.html">Vector</a></li><li><a href="View.html">View</a></li><li><a href="Wall.html">Wall</a></li><li><a href="World.html">World</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-action-types-actionTypes.html">actionTypes</a></li></ul><h3>Interfaces</h3><ul><li><a href="module-critters-Critter.html">Critter</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0</a> on Sat May 23 2015 03:43:19 GMT-0700 (PDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0</a> on Sat May 23 2015 16:20:30 GMT-0700 (PDT)
 </footer>
 
 <script> prettyPrint(); </script>

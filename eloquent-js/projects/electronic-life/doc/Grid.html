@@ -49,7 +49,7 @@
 
 
 <div class="description">
-    Represents a grid on which life exists
+    The two-dimensional space in which life exists for a given World. The top left square in a grid is (0,0). Internally, values are stored in an Array of length Grid.width*Grid.height.
 </div>
 
 
@@ -217,7 +217,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="grid.js.html">grid.js</a>, <a href="grid.js.html#line14">line 14</a>
+        <a href="grid.js.html">grid.js</a>, <a href="grid.js.html#line13">line 13</a>
     </li></ul></dd>
     
 
@@ -271,6 +271,10 @@
     
 
 
+
+<div class="description">
+    Helper that finds an index for a given Vector's value within the internal Grid.space property.
+</div>
 
 
 
@@ -362,7 +366,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="grid.js.html">grid.js</a>, <a href="grid.js.html#line75">line 75</a>
+        <a href="grid.js.html">grid.js</a>, <a href="grid.js.html#line79">line 79</a>
     </li></ul></dd>
     
 
@@ -408,6 +412,10 @@
     
 
 
+
+<div class="description">
+    Iterates over every square in the Grid. Starts at (0,0) and moves across rows left-to-right.
+</div>
 
 
 
@@ -522,7 +530,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="grid.js.html">grid.js</a>, <a href="grid.js.html#line55">line 55</a>
+        <a href="grid.js.html">grid.js</a>, <a href="grid.js.html#line58">line 58</a>
     </li></ul></dd>
     
 
@@ -553,11 +561,15 @@
 
     
 
-    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(vector)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(vector)</span><span class="type-signature"> &rarr; {String}</span></h4>
 
     
 
 
+
+<div class="description">
+    Retrieves the value of a square on the Grid.
+</div>
 
 
 
@@ -649,7 +661,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="grid.js.html">grid.js</a>, <a href="grid.js.html#line35">line 35</a>
+        <a href="grid.js.html">grid.js</a>, <a href="grid.js.html#line36">line 36</a>
     </li></ul></dd>
     
 
@@ -675,11 +687,19 @@
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    string
-</div>
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -690,11 +710,15 @@
 
     
 
-    <h4 class="name" id="isInside"><span class="type-signature"></span>isInside<span class="signature">(vector)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="isInside"><span class="type-signature"></span>isInside<span class="signature">(vector)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 
 
+
+<div class="description">
+    Given a Vector, returns whether that Vector lies within the boundaries of the grid.
+</div>
 
 
 
@@ -812,11 +836,19 @@
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    boolean
-</div>
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -832,6 +864,10 @@
     
 
 
+
+<div class="description">
+    Sets the value of a square on the Grid.
+</div>
 
 
 
@@ -882,7 +918,7 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Position of a Grid square.</td>
         </tr>
 
     
@@ -905,7 +941,7 @@
 
             
 
-            <td class="description last">Contents of a Grid square</td>
+            <td class="description last">Contents of a Grid square, one character.</td>
         </tr>
 
     
@@ -946,7 +982,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="grid.js.html">grid.js</a>, <a href="grid.js.html#line45">line 45</a>
+        <a href="grid.js.html">grid.js</a>, <a href="grid.js.html#line47">line 47</a>
     </li></ul></dd>
     
 
@@ -988,13 +1024,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-action-types.html">action-types</a></li><li><a href="module-critters.html">critters</a></li><li><a href="module-directions.html">directions</a></li><li><a href="module-utilities.html">utilities</a></li></ul><h3>Classes</h3><ul><li><a href="Grid.html">Grid</a></li><li><a href="LifelikeWorld.html">LifelikeWorld</a></li><li><a href="module-critters-BouncingCritter.html">BouncingCritter</a></li><li><a href="module-critters-Critter.html">Critter</a></li><li><a href="module-critters-Plant.html">Plant</a></li><li><a href="module-critters-PlantEater.html">PlantEater</a></li><li><a href="module-critters-WallFollower.html">WallFollower</a></li><li><a href="Vector.html">Vector</a></li><li><a href="View.html">View</a></li><li><a href="World.html">World</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-action-types-actionTypes.html">actionTypes</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-action-types.html">action-types</a></li><li><a href="module-critters.html">critters</a></li><li><a href="module-directions.html">directions</a></li><li><a href="module-utilities.html">utilities</a></li></ul><h3>Classes</h3><ul><li><a href="Grid.html">Grid</a></li><li><a href="LifelikeWorld.html">LifelikeWorld</a></li><li><a href="module-critters-BouncingCritter.html">BouncingCritter</a></li><li><a href="module-critters-Plant.html">Plant</a></li><li><a href="module-critters-PlantEater.html">PlantEater</a></li><li><a href="module-critters-SmartPlantEater.html">SmartPlantEater</a></li><li><a href="module-critters-WallFollower.html">WallFollower</a></li><li><a href="Vector.html">Vector</a></li><li><a href="View.html">View</a></li><li><a href="Wall.html">Wall</a></li><li><a href="World.html">World</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-action-types-actionTypes.html">actionTypes</a></li></ul><h3>Interfaces</h3><ul><li><a href="module-critters-Critter.html">Critter</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0</a> on Sat May 23 2015 03:43:19 GMT-0700 (PDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0</a> on Sat May 23 2015 16:20:30 GMT-0700 (PDT)
 </footer>
 
 <script> prettyPrint(); </script>

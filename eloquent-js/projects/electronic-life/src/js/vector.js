@@ -1,11 +1,10 @@
 module.exports = Vector;
 
 /**
- * Creates a vector representing cartesian coordinates
- *
+ * A set of (x,y) coordinates in space.
  * @constructor
- * @param {number} x - Cartesian x-coordinate
- * @param {number} y - Cartesian y-coordinate
+ * @param {number} x - x-coordinate
+ * @param {number} y - y-coordinate
  */
 function Vector(x, y) {
     this.x = x;
@@ -13,6 +12,7 @@ function Vector(x, y) {
 }
 
 /**
+ * Vector addition. Returns a new Vector that is the result of adding another Vector to the calling Vector object.
  * @method
  * @param {Vector} vector
  * @returns {Vector}

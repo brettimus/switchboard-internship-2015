@@ -3,8 +3,7 @@ var Vector = require("./vector");
 module.exports = Grid;
 
 /**
- * Represents a grid on which life exists
- *
+ * The two-dimensional space in which life exists for a given World. The top left square in a grid is (0,0). Internally, values are stored in an Array of length Grid.width*Grid.height.
  * @constructor
  * @param {number} width - Width of grid instance in ...units.
  * @param {number} height - Height of grid instance in ...units.
@@ -18,9 +17,10 @@ function Grid(width, height) {
 }
 
 /**
+ * Given a Vector, returns whether that Vector lies within the boundaries of the grid.
  * @method
  * @param {Vector} 
- * @return boolean
+ * @returns {Boolean}
  */
 Grid.prototype.isInside = function(vector) {
     return vector.x >= 0 && vector.x < this.width &&
@@ -28,9 +28,10 @@ Grid.prototype.isInside = function(vector) {
 };
 
 /**
+ * Retrieves the value of a square on the Grid.
  * @method
  * @param {Vector} vector - A coordinate
- * @return string
+ * @return {String}
  */
 Grid.prototype.get = function(vector) {
     var i = this._indexFromVector(vector);
@@ -38,9 +39,10 @@ Grid.prototype.get = function(vector) {
 };
 
 /**
+ * Sets the value of a square on the Grid.
  * @method
- * @param {Vector} vector
- * @param {string} value - Contents of a Grid square
+ * @param {Vector} vector - Position of a Grid square.
+ * @param {string} value - Contents of a Grid square, one character.
  */
 Grid.prototype.set = function(vector, value) {
     var i = this._indexFromVector(vector);
@@ -48,6 +50,7 @@ Grid.prototype.set = function(vector, value) {
 };
 
  /**
+  * Iterates over every square in the Grid. Starts at (0,0) and moves across rows left-to-right.
   * @method
   * @param {function} f
   * @param {object} context
@@ -67,6 +70,7 @@ Grid.prototype.forEach = function(f, context) {
 };
 
  /**
+  * Helper that finds an index for a given Vector's value within the internal Grid.space property.
   * @method
   * @access private
   * @param {Vector} vector

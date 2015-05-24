@@ -12,11 +12,13 @@ var randomElement = require("./utilities").randomElement,
 
 
 /**
- * @constructor
+ * A Critter takes an action on each World#turn.
+ * @interface Critter
  */
 function Critter() {}
 
 /**
+ * An action to take on a turn of World.
  * @abstract
  */
 Critter.prototype.act = function(view) {
@@ -24,32 +26,45 @@ Critter.prototype.act = function(view) {
 };
 
 /**
+ * A Critter who "follows its nose" 
+ * (i.e., keeps moving in the same direction) 
+ * until it hits a barrier, 
+ * upon which it bounces off in a random open direction.
  * @constructor
+ * @implements Critter
  * @property {string} direction - The current direction...? 
  */
 function BouncingCritter() {
+    Critter.call(this);
     this.direction = randomElement(directionNames);
 }
+BouncingCritter.prototype = Object.create(Critter.prototype);
 
 /**
+ * If the BouncingCritter has no open space around it,
+ * BouncingCritter.direction is assigned "s".
  * @method
  * @param {View} view
  */
 BouncingCritter.prototype.act = function(view) {
     if (view.look(this.direction) !== " ") {
-        this.direction = view.find(" ") || "s"; // goes south if no space found?
+        this.direction = view.find(" ") || "s"; // prevents having direction of `null`
     }
     return {type: "move", direction: this.direction};
 };
 
 
-/** 
+/**
+ * A Critter who requires its left side be adjacent to a Wall.
  * @constructor
+ * @implements Critter
  * @property {string} direction
  */
 function WallFollower() {
+    Critter.call(this);
     this.dir = "s";
 }
+WallFollower.prototype = Object.create(Critter.prototype);
 
 /**
  * @method
@@ -70,13 +85,17 @@ WallFollower.prototype.act = function(view) {
 
 /** 
  * @constructor
+ * @implements Critter
  * @property {number} energy
  */
 function Plant() {
+    Critter.call(this);
     this.energy = 3 + Math.random()*4;
 }
+Plant.prototype = Object.create(Critter.prototype);
 
 /**
+ * A Plant can either grow or reproduce during its turn.
  * @method
  * @param {object} context
  */
@@ -97,15 +116,19 @@ Plant.prototype.act = function(context) {
 
 /** 
  * @constructor
+ * @implements Critter
  * @property {number} energy
  */
 function PlantEater() {
+    Critter.call(this);
     this.energy = 20;
 }
+PlantEater.prototype = Object.create(Critter.prototype);
 
 /**
+ * A PlantEater can either reproduce, eat, or move during its turn.
  * @method
- * @param {object} context
+ * @param {Object} context - The surroundings of a PlantEater?
  */
 PlantEater.prototype.act = function(context) {
     var space = context.find(" "),
@@ -122,3 +145,34 @@ PlantEater.prototype.act = function(context) {
     }
 };
 
+
+/** 
+ * @constructor
+ * @implements Critter
+ * @property {number} energy
+ */
+function SmartPlantEater() {
+    Critter.call(this);
+    this.energy = 20;
+}
+SmartPlantEater.prototype = Object.create(Critter.prototype);
+
+/**
+ * A SmartPlantEater can either reproduce, eat, or move during its turn.
+ * @method
+ * @param {Object} context
+ */
+SmartPlantEater.prototype.act = function(context) {
+    var space = context.find(" "),
+        plant;
+    if (this.energy > 60 && space) {
+        return {type: "reproduce", direction: space};
+    }
+    plant = context.find("*");
+    if (plant) {
+        return {type: "eat", direction: plant};
+    }
+    if (space) {
+        return {type: "move", direciton: space};
+    }
+};

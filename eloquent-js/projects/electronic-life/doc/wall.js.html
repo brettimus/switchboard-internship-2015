@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: lifelike-world.js</title>
+    <title>JSDoc: Source: wall.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: lifelike-world.js</h1>
+    <h1 class="page-title">Source: wall.js</h1>
 
     
 
@@ -26,43 +26,13 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>module.exports = LifelikeWorld;
-
-var World = require("./world"),
-    View = require("./view"),
-    actionTypes = require("./action-types");
-
+            <pre class="prettyprint source linenums"><code>module.exports = Wall;
 
 /**
- * Differentially Inherits from World.
- *
+ * An immutable square in World.grid that can take no action.
  * @constructor
- * @augments World
- * @param {string} map
- * @param {object} legend - Map of strings to constructors
  */
-function LifelikeWorld(map, legend) {
-    World.call(this, map, legend);
-}
-LifelikeWorld.prototype = Object.create(World.prototype);
-
-/**
- * @method
- * @param {Critter} critter
- * @param {Vector} vector
- */
-LifelikeWorld.prototype.letAct = function(critter, vector) {
-    var action = critter.act(new View(this, vector)),
-        handled = action &amp;&amp;
-                    action.type in actionTypes &amp;&amp;
-                    actionTypes[action.type].call(this, critter, vector, action);
-    if (handled) {
-        critter.energy -= 0.2;
-        if (critter.energy &lt;= 0) {
-            this.grid.set(vector, null);
-        }
-    }
-};</code></pre>
+function Wall() {}</code></pre>
         </article>
     </section>
 

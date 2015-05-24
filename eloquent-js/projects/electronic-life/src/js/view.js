@@ -6,9 +6,10 @@ module.exports = View;
 
 
 /**
+ * Inspects the surroundings (8 neighboring squares) of a square in a World.
  * @constructor
- * @param {World} world
- * @param {Vector} vector
+ * @param {World} world - The world in which the view
+ * @param {Vector} vector - The current square from which to inspect the View.world.
  */
 function View(world, vector) {
     this.world = world;
@@ -16,8 +17,9 @@ function View(world, vector) {
 }
 
 /**
+ * Returns a character representing the value of a square in a particular direction.
  * @method
- * @param {string} direction
+ * @param {string} direction - The direction in which to look.
  * @return {string}
  */
 View.prototype.look = function(dir) {
@@ -31,6 +33,7 @@ View.prototype.look = function(dir) {
 };
 
 /**
+ * Returns the directions corresponding to all neighboring instances of a character.
  * @method
  * @param {string} ch
  * @return {string[]}
@@ -47,6 +50,9 @@ View.prototype.findAll = function(ch) {
 };
 
 /**
+ * Returns a direction in which a given character can be found.
+ * If more than one neighboring square has the given found, 
+ * a random direction is returned.
  * @method
  * @param {string} ch
  * @return {string}

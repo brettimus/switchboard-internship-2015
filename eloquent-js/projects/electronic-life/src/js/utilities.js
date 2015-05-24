@@ -1,17 +1,32 @@
 /** @module utilities */
 
 /**
+ * Uniformly samples a random element from an Array.
  * @function randomElement
- * @param {array} array - Array from which to sample a random element.
+ * @param {Array} array
+ * @return {*}
  */
 module.exports.randomElement = function randomElement(array) {
     return array[Math.floor(Math.random() * array.length)];
 };
 
 /**
- * @function randomElement
- * @param {object} legend -
- * @param {string} ch -
+ * Checks whether a value is null or undefined.
+ * @function isNully
+ * @param {*} value
+ * @return {Boolean}
+ */
+function isNully(value) {
+    return value == null;
+}
+module.exports.isNully = isNully;
+
+
+/**
+ * Creates an instance of the correct type from a Legend.
+ * @function elementFromChar
+ * @param {object} legend - This needs a section in the docs
+ * @param {string} ch
  * @returns {object}
  */
 module.exports.elementFromChar = function elementFromChar(legend, ch) {
@@ -22,11 +37,12 @@ module.exports.elementFromChar = function elementFromChar(legend, ch) {
 };
 
 /**
- * @function randomElement
- * @param {Element} element -
+ * 
+ * @function charFromElement
+ * @param {Object} element
  * @returns {string}
  */
 module.exports.charFromElement = function charFromElement(element) {
-    if (element == null) return " ";
+    if (isNully(element)) return " ";
     return element.originChar;
 };
