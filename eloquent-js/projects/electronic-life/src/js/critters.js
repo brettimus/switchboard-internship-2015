@@ -5,6 +5,7 @@ module.exports = {
     Plant: Plant,
     PlantEater: PlantEater,
     SmarterPlantEater: SmarterPlantEater,
+    Predator: Predator,
 };
 
 var randomElement = require("./utilities").randomElement,
@@ -159,7 +160,7 @@ function SmarterPlantEater() {
 SmarterPlantEater.prototype = Object.create(Critter.prototype);
 
 /**
- * A SmarterPlantEater can either reproduce, eat, or move during its turn. 
+ * A SmarterPlantEater can either reproduce, eat a Plant, or move during its turn. 
  * Unlike a PlantEater, its movements are not entirely random. 
  * @method
  * @param {View} context
@@ -184,6 +185,43 @@ SmarterPlantEater.prototype.act = function(context) {
     }
 
     if (space) {
-        return {type: "move", direciton: space};
+        return {type: "move", direction: space};
     }
+};
+
+
+/** 
+ * A Critter that eats PlantEaters. :'(
+ * @constructor
+ * @implements Critter
+ * @property {number} energy
+ */
+function Predator() {
+    Critter.call(this);
+    this.energy = 30;
+}
+Predator.prototype = Object.create(Critter.prototype);
+
+/**
+ * A Predator can either reproduce, eat a PlantEater, or move during its turn.
+ * @method
+ * @param {View} context
+ */
+Predator.prototype.act = function(context) {
+    var plantEater = context.find("O"),
+        space;
+
+    if (plantEater) {
+        return {type: "eat", direction: plantEater};
+    }
+
+    space = context.find(" ");
+    if (this.energy > 90 && space) {
+        return {type: "reproduce", direction: space};
+    }
+
+    if (space) {
+        return {type: "move", direction: space};
+    }
+
 };
