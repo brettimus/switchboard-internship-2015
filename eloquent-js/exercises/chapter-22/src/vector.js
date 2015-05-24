@@ -13,7 +13,7 @@ function Vector(x, y) {
  * Vector addition.
  * @method
  * @param {Vector} w
- * @returns {Vector}
+ * @return {Vector}
  */
 Vector.prototype.plus = function plus(w) {
     return new Vector(this.x + w.x, this.y + w.y);
@@ -23,7 +23,7 @@ Vector.prototype.plus = function plus(w) {
  * Vector subtraction.
  * @method
  * @param {Vector} w
- * @returns {Vector}
+ * @return {Vector}
  */
 Vector.prototype.minus = function minus(w) {
     return new Vector(this.x - w.x, this.y - w.y);
@@ -33,11 +33,21 @@ Vector.prototype.minus = function minus(w) {
  * Vector scaling.
  * @method
  * @param {Number} k
- * @returns {Vector}
+ * @return {Vector}
  */
 Vector.prototype.times = function(k) {
     return new Vector(this.x * k, this.y * k);
 };
+
+/**
+ * Normalizes the vector. (Creates a vector in the same direction with length of 1)
+ * @method
+ * @return {Vector}
+ */
+ Vector.prototype.normalize = function() {
+    if (!this.length) throw new Error("Cannot normalize vector at (0,0)");
+    return this.times(1/this.length);
+ };
 
 /**
  * @prop {Number} length

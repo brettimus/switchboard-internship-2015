@@ -1,20 +1,31 @@
+    /** @const */
+var springLength = 40,
+    /** @const */
+    springStrength = 0.1,
+    /** @const */
+    repulsionStrength = 1500;
 
-function treeGraph(depth, branches) {
-    var graph = [];
-    buildNode(depth);
-    return graph;
-
-    function buildNode(depth) {
-        var node = new GraphNode(),
-            i;
-        graph.push(node);
-        if (depth > 1) {
-            for (i = 0; i < branches; i++) {
-                node.connect(buildNode(depth - 1));
+/**
+ * A simple (an fairly inefficient) force-directed graph layout generator.
+ * @function runLayout
+ * @param {GraphNode[]} graph
+ */
+function forceDirected_simple(graph) {
+    graph.forEach(function(node){
+        graph.forEach(function(other) {
+            if (node == other) return;
+            var apart = other.pos.minus(node.pos),
+                distance = Math.max(1, apart.length),
+                forceSize = -repulsionStrength / (distance * distance),
+                normalized;
+            if (node.hasEdge(other)) {
+                forceSize += (distance - springLength) * springStrength;
             }
-        }
-        return node;
-    }
+            normalized = apart.times(1 / distance);
+            node.pos = node.pos.plus(normalized.times(forceSize));
+        });
+    });
 }
+
 
 drawGraph(treeGraph(3,5));

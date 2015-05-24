@@ -1,55 +1,4 @@
 /**
- * A set of (x,y) coordinates in space.
- * @constructor
- * @param {number} x - x-coordinate
- * @param {number} y - y-coordinate
- */
-function Vector(x, y) {
-    this.x = x;
-    this.y = y;
-}
-
-/**
- * Vector addition.
- * @method
- * @param {Vector} w
- * @returns {Vector}
- */
-Vector.prototype.plus = function plus(w) {
-    return new Vector(this.x + w.x, this.y + w.y);
-};
-
-/**
- * Vector subtraction.
- * @method
- * @param {Vector} w
- * @returns {Vector}
- */
-Vector.prototype.minus = function minus(w) {
-    return new Vector(this.x - w.x, this.y - w.y);
-};
-
-/**
- * Vector scaling.
- * @method
- * @param {Number} k
- * @returns {Vector}
- */
-Vector.prototype.times = function(k) {
-    return new Vector(this.x * k, this.y * k);
-};
-
-/**
- * @prop {Number} length
- * @this Vector
- * @instance
- * @readonly
- */
-Object.defineProperty(Vector.prototype, "length", {
-    get: function() {
-        return Math.sqrt(this.x * this.x + this.y * this.y);
-    }
-});/**
  * A node on a Graph
  * @constructor
  * @prop {Vector} pos
@@ -83,7 +32,100 @@ GraphNode.prototype.hasEdge = function(other) {
             return true;
         }
     }
-};// Since we will want to inspect the layouts our code produces, let's
+};/**
+ * Profiling Helper
+ * @function runLayout
+ * @param {function} implementation - An implementation of a force-directed graph layout.
+ * @param {GraphNode[]} graph - An array of GraphNodes that on which to run our force-directed graph layout implementation.
+ * @param {Number} [times] - The number of times to test our implementation. Defaults to 4000.
+ */
+function runLayout(implementation, graph, times) {
+    times = times || 4000;
+}/**
+ * Creates a simple tree Graph
+ * @function runLayout
+ * @param {Number} depth
+ * @param {Number} branches
+ * @return {GraphNode[]}
+ */
+function treeGraph(depth, branches) {
+    var graph = [];
+    buildNode(depth);
+    return graph;
+
+    function buildNode(depth) {
+        var node = new GraphNode(),
+            i;
+        graph.push(node);
+        if (depth > 1) {
+            for (i = 0; i < branches; i++) {
+                node.connect(buildNode(depth - 1));
+            }
+        }
+        return node;
+    }
+}/**
+ * A set of (x,y) coordinates in space.
+ * @constructor
+ * @param {number} x - x-coordinate
+ * @param {number} y - y-coordinate
+ */
+function Vector(x, y) {
+    this.x = x;
+    this.y = y;
+}
+
+/**
+ * Vector addition.
+ * @method
+ * @param {Vector} w
+ * @return {Vector}
+ */
+Vector.prototype.plus = function plus(w) {
+    return new Vector(this.x + w.x, this.y + w.y);
+};
+
+/**
+ * Vector subtraction.
+ * @method
+ * @param {Vector} w
+ * @return {Vector}
+ */
+Vector.prototype.minus = function minus(w) {
+    return new Vector(this.x - w.x, this.y - w.y);
+};
+
+/**
+ * Vector scaling.
+ * @method
+ * @param {Number} k
+ * @return {Vector}
+ */
+Vector.prototype.times = function(k) {
+    return new Vector(this.x * k, this.y * k);
+};
+
+/**
+ * Normalizes the vector. (Creates a vector in the same direction with length of 1)
+ * @method
+ * @return {Vector}
+ */
+ Vector.prototype.normalize = function() {
+    if (!this.length) throw new Error("Cannot normalize vector at (0,0)");
+    return this.times(1/this.length);
+ };
+
+/**
+ * @prop {Number} length
+ * @this Vector
+ * @instance
+ * @readonly
+ */
+Object.defineProperty(Vector.prototype, "length", {
+    get: function() {
+        return Math.sqrt(this.x * this.x + this.y * this.y);
+    }
+});// Since we will want to inspect the layouts our code produces, let's
 // first write code to draw a graph onto a canvas. Since we don't know
 // in advance how big the graph is, the `Scale` object computes a
 // scale and offset so that all nodes fit onto the given canvas.
@@ -163,23 +205,34 @@ Scale.prototype.y = function(y) {
 };
 
 // The `x` and `y` methods of the `Scale` type convert from graph
-// coordinates into canvas coordinates.
-function treeGraph(depth, branches) {
-    var graph = [];
-    buildNode(depth);
-    return graph;
+// coordinates into canvas coordinates.    /** @const */
+var springLength = 40,
+    /** @const */
+    springStrength = 0.1,
+    /** @const */
+    repulsionStrength = 1500;
 
-    function buildNode(depth) {
-        var node = new GraphNode(),
-            i;
-        graph.push(node);
-        if (depth > 1) {
-            for (i = 0; i < branches; i++) {
-                node.connect(buildNode(depth - 1));
+/**
+ * A simple (an fairly inefficient) force-directed graph layout generator.
+ * @function runLayout
+ * @param {GraphNode[]} graph
+ */
+function forceDirected_simple(graph) {
+    graph.forEach(function(node){
+        graph.forEach(function(other) {
+            if (node == other) return;
+            var apart = other.pos.minus(node.pos),
+                distance = Math.max(1, apart.length),
+                forceSize = -repulsionStrength / (distance * distance),
+                normalized;
+            if (node.hasEdge(other)) {
+                forceSize += (distance - springLength) * springStrength;
             }
-        }
-        return node;
-    }
+            normalized = apart.times(1 / distance);
+            node.pos = node.pos.plus(normalized.times(forceSize));
+        });
+    });
 }
+
 
 drawGraph(treeGraph(3,5));
