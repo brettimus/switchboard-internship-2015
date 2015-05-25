@@ -1,7 +1,27 @@
 # Mandelbrot Set
 
+## Usage
+SVG version is borked. Use canvas:
+```javascript
+canvasMandelbrot(0, 0, 1, {scale: 30, width: 300, height: 300, translateX: 100, translateY: 100});
+```
+
+## Options
+### left
+### top
+### width
+### translateX
+number of pixels to horizontally translate drawn image
+### translateY
+number of pixels to vertically translate drawn image
+### scale
+scales `width`
+### countMax
+number of iterations of inner-most loop (which calculates generations for a given x,y coord)
+
+
 ## Possible Exercises
-* Refactor the duplicated code that assigns defaults in `svgExample` and `canvasExample`. Try using a polyfill for [Object.assign](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#polyfill).
+* Refactor the duplicated code that assigns defaults in `svgMandelbrot` and `canvasMandelbrot`. Try using a polyfill for [Object.assign](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#polyfill).
 * Rewrite the algorithm using an OO approach. Profile your new OO code against the original implementation.
 * Why does the SVG rendition suck so much? Is there anything we can do? What if we iterated by steps of size 2 from 1 to 150?
 * How can we dynamically calculate a translation of the figure so it is in the center of the page?

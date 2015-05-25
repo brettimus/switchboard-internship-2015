@@ -56,10 +56,7 @@ function mandelbrot(left, top, width, options) {
             for (count = 1; count <= countMax; count++) {
                 zx2 = zx*zx;
                 zy2 = zy*zy;
-                if (zx2 + zy2 > 4) {
-                    console.log("unbounded on count ", count);
-                    break;
-                }
+                if (zx2 + zy2 > 4) break;
                 xtemp = zx*zx - zy*zy;
                 zy = 2 * zx * zy + cb;
                 zx = xtemp + ca;
