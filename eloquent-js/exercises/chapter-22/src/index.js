@@ -28,4 +28,5 @@ function forceDirected_simple(graph) {
 }
 
 
-drawGraph(treeGraph(3,5));
+// drawGraph(treeGraph(3,5));
+runLayout(forceDirected_simple, treeGraph(4,4));

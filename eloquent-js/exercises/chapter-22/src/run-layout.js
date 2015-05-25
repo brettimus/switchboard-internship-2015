@@ -7,4 +7,23 @@
  */
 function runLayout(implementation, graph, times) {
     times = times || 4000;
+    var totalSteps = 0,
+        time = 0;
+
+    step();
+
+    function step() {
+        var startTime = Date.now(),
+            i = 100;
+        while (i--) implementation(graph);
+        totalSteps += 100;
+        time += Date.now() - startTime;
+        drawGraph(graph);
+        if (totalSteps < 4000) {
+            window.requestAnimationFrame(step);
+        }
+        else {
+            console.log(time);
+        }
+    }
 }
