@@ -6,10 +6,10 @@ module.exports = Cell;
  * A Cell takes an action on each Game#turn.
  * @constructor
  */
-function Cell(id, alive) {
+function Cell(id, alive, infected) {
     this.id = id;
     this.alive = !!alive;
-    this.infected = false;
+    this.infected = !!infected;
 }
 
 /**
@@ -25,7 +25,7 @@ Cell.prototype.willChange = function(view) {
     // this spreads too quickly because it assigns infection here...
     if (!this.infected)
         if(neighbs.infected)
-            this.infect()
+            this.infect();
 
     if (this.alive && aliveCount < 2) return true;
     if (this.alive && aliveCount > 3) return true;
@@ -52,9 +52,8 @@ Cell.prototype.willChangeLife = function(view) {
  * @returns {Boolean}
  */
 Cell.prototype.willChangeHealth = function(view) {
-    
-    if (this.infected) return false; // no cure!
-    return view.hasInfectedNeighbor();
+    if (this.infected) return false; // no cure except for more clicks!
+    return view.hasInfectedLivingNeighbor();
 };
 
 /**
@@ -69,7 +68,7 @@ Cell.prototype.invert = function() {
 
 
 /**
- * Infect with virus
+ * Infect cell with virus
  * @method
  * @returns {this}
  */
@@ -79,7 +78,7 @@ Cell.prototype.infect = function() {
 };
 
 /**
- * Reverse the infection
+ * Flip the current infection status
  * @method
  * @returns {this}
  */
@@ -125,7 +124,7 @@ module.exports.dirPlus = function(dir, n) {
     return directionNames[(index + n + 8) % 8];
 };
 
-},{"./vector":8}],3:[function(require,module,exports){
+},{"./vector":9}],3:[function(require,module,exports){
 module.exports = Game;
 
 var Grid = require("./grid"),
@@ -300,7 +299,7 @@ Game.prototype.letAct = function(cell, vector) {
         cell.draw(this.svg, vector);
     }
 };
-},{"./cell":1,"./grid":4,"./utilities":7,"./vector":8,"./view":9}],4:[function(require,module,exports){
+},{"./cell":1,"./grid":4,"./utilities":8,"./vector":9,"./view":10}],4:[function(require,module,exports){
 var Vector = require("./vector");
 
 module.exports = Grid;
@@ -408,7 +407,7 @@ Grid.prototype.filter = function(f, context) {
   Grid.prototype._indexFromVector = function(vector) {
     return vector.x + this.width * vector.y;
   };
-},{"./vector":8}],5:[function(require,module,exports){
+},{"./vector":9}],5:[function(require,module,exports){
 (function (global){
 var d3 = require("d3"),
     Simulation = require("./simulation"),
@@ -460,10 +459,12 @@ for (var y = 0; y < gridHeight; y++) {
     }
 }
 
-global.sim = new Simulation(svg, map, 1000);
+global.sim = (new Simulation(svg, map, 1000)).run(250, 450);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./game":3,"./grid":4,"./simulation":6,"./vector":8,"d3":10}],6:[function(require,module,exports){
+},{"./game":3,"./grid":4,"./simulation":7,"./vector":9,"d3":11}],6:[function(require,module,exports){
+// NYI
+},{}],7:[function(require,module,exports){
 var Game = require("./game"),
     Promise = require("es6-promise").Promise;
 
@@ -480,15 +481,7 @@ function Simulation(svg, map, options) {
     this.n = options.iterations || 100;
 }
 
-Simulation.prototype.run = function(times) {
-    times = times || this.n;
-    this.game = new Game(this.svg, this.map);
-    while (times--) {
-        this.game.tick();
-    }
-};
-
-Simulation.prototype.runSlow = function(times, wait) {
+Simulation.prototype.run = function(times, wait) {
     times = times || this.n;
     wait  = wait  || 4000;
 
@@ -497,8 +490,9 @@ Simulation.prototype.runSlow = function(times, wait) {
     var game = this.game,
         simulationPromise = new Promise(simulation);
 
-    simulationPromise.then(success, failure);
-
+    this.promise = simulationPromise.then(success, failure);
+    return this;
+    
     function simulation(resolve, reject) {
         var count = 1,
             interval = setInterval(function() {
@@ -554,7 +548,7 @@ function SimulationError(err, message) {
 }
 SimulationError.prototype = Object.create(Error.prototype);
 SimulationError.prototype.name = "SimulationError";
-},{"./game":3,"es6-promise":11}],7:[function(require,module,exports){
+},{"./game":3,"es6-promise":12}],8:[function(require,module,exports){
 
 /**
  * Uniformly samples a random element from an Array.
@@ -576,7 +570,7 @@ function isNully(value) {
     return value == null;
 }
 module.exports.isNully = isNully;
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 module.exports = Vector;
 
 /**
@@ -599,7 +593,7 @@ function Vector(x, y) {
 Vector.prototype.plus = function plus(w) {
     return new Vector(this.x + w.x, this.y + w.y);
 };
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 var directions = require("./directions").directions,
     charFromElement = require("./utilities").charFromElement,
     randomElement = require("./utilities").randomElement,
@@ -655,9 +649,9 @@ View.prototype.infected = function(dir) {
 
 
 /**
- * Returns a count of all living neighbor cells.
+ * Returns a count of all living neighbor cells and whether there exists an infected neighbor (alive or dead).
  * @method
- * @return {number}
+ * @return {Object}
  */
 View.prototype.neighbors = function() {
     var aliveCount = 0,
@@ -679,7 +673,7 @@ View.prototype.neighbors = function() {
 };
 
 /**
- * Returns a count of all living neighbor cells.
+ * Returns a count of living neighbor cells.
  * @method
  * @return {number}
  */
@@ -695,7 +689,7 @@ View.prototype.livingNeighborsCount = function() {
 };
 
 /**
- * Returns whether or not there are infected neighbor cells.
+ * Returns whether there exist infected neighbor cells.
  * @method
  * @return {number}
  */
@@ -710,60 +704,20 @@ View.prototype.hasInfectedNeighbor = function() {
 };
 
 /**
- * Returns the directions corresponding to all neighboring instances of a character.
+ * Returns whether there exist living infected neighbor cells.
  * @method
- * @param {string} ch
- * @return {string[]} - Array of directions.
+ * @return {number}
  */
-View.prototype.findAll = function(ch) {
-    var found = [],
-        dir;
+View.prototype.hasInfectedLivingNeighbor = function() {
+    var dir;
     for (dir in directions) {
-        if (this.look(dir) === ch) {
-            found.push(dir);
+        if (this.infected(dir) && this.lookAlive(dir)) {
+            return true;
         }
     }
-    return found;
+    return false;
 };
-
-/**
- * Returns a direction in which a given character can be found.
- * If more than one neighboring square has the given found, 
- * a random direction is returned.
- * @method
- * @param {string} ch
- * @return {string}
- */
-View.prototype.find = function(ch) {
-    var found = this.findAll(ch);
-    if (found.length === 0) return null;
-    return randomElement(found);
-};
-
-/**
- * Looks within a one-square-radius for square with a particular value. 
- * @method
- * @param {string} ch
- * @return {string} direction
- */
-View.prototype.findNearby = function(ch) {
-    var found;
-    // Find all spaces into which we could move
-    found = this.findAll(" ").filter(function(dir) {
-        // Calculate the position of the open space
-        // Create a new view based off of said position
-        var foundPosition = this.vector.plus(directions[dir]),
-            foundView = new View(this.world, foundPosition);
-
-        // If the new position is adjacent to a `ch`, return true
-        return !isNully(foundView.find(ch));
-    }.bind(this));
-    
-    if (found.length === 0) return null;
-    return randomElement(found);
-};
-
-},{"./directions":2,"./utilities":7}],10:[function(require,module,exports){
+},{"./directions":2,"./utilities":8}],11:[function(require,module,exports){
 !function() {
   var d3 = {
     version: "3.5.5"
@@ -10268,7 +10222,7 @@ View.prototype.findNearby = function(ch) {
   if (typeof define === "function" && define.amd) define(d3); else if (typeof module === "object" && module.exports) module.exports = d3;
   this.d3 = d3;
 }();
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 (function (process,global){
 /*!
  * @overview es6-promise - a tiny implementation of Promises/A+.
@@ -11229,7 +11183,7 @@ View.prototype.findNearby = function(ch) {
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":12}],12:[function(require,module,exports){
+},{"_process":13}],13:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -11321,4 +11275,4 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}]},{},[1,2,3,4,5,6,7,8,9]);
+},{}]},{},[1,2,3,4,5,6,7,8,9,10]);

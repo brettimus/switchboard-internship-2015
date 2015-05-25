@@ -5,10 +5,10 @@ module.exports = Cell;
  * A Cell takes an action on each Game#turn.
  * @constructor
  */
-function Cell(id, alive) {
+function Cell(id, alive, infected) {
     this.id = id;
     this.alive = !!alive;
-    this.infected = false;
+    this.infected = !!infected;
 }
 
 /**
@@ -24,7 +24,7 @@ Cell.prototype.willChange = function(view) {
     // this spreads too quickly because it assigns infection here...
     if (!this.infected)
         if(neighbs.infected)
-            this.infect()
+            this.infect();
 
     if (this.alive && aliveCount < 2) return true;
     if (this.alive && aliveCount > 3) return true;
@@ -51,9 +51,8 @@ Cell.prototype.willChangeLife = function(view) {
  * @returns {Boolean}
  */
 Cell.prototype.willChangeHealth = function(view) {
-    
-    if (this.infected) return false; // no cure!
-    return view.hasInfectedNeighbor();
+    if (this.infected) return false; // no cure except for more clicks!
+    return view.hasInfectedLivingNeighbor();
 };
 
 /**
@@ -68,7 +67,7 @@ Cell.prototype.invert = function() {
 
 
 /**
- * Infect with virus
+ * Infect cell with virus
  * @method
  * @returns {this}
  */
@@ -78,7 +77,7 @@ Cell.prototype.infect = function() {
 };
 
 /**
- * Reverse the infection
+ * Flip the current infection status
  * @method
  * @returns {this}
  */

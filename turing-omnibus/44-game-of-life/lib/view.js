@@ -53,9 +53,9 @@ View.prototype.infected = function(dir) {
 
 
 /**
- * Returns a count of all living neighbor cells.
+ * Returns a count of all living neighbor cells and whether there exists an infected neighbor (alive or dead).
  * @method
- * @return {number}
+ * @return {Object}
  */
 View.prototype.neighbors = function() {
     var aliveCount = 0,
@@ -77,7 +77,7 @@ View.prototype.neighbors = function() {
 };
 
 /**
- * Returns a count of all living neighbor cells.
+ * Returns a count of living neighbor cells.
  * @method
  * @return {number}
  */
@@ -93,7 +93,7 @@ View.prototype.livingNeighborsCount = function() {
 };
 
 /**
- * Returns whether or not there are infected neighbor cells.
+ * Returns whether there exist infected neighbor cells.
  * @method
  * @return {number}
  */
@@ -108,55 +108,16 @@ View.prototype.hasInfectedNeighbor = function() {
 };
 
 /**
- * Returns the directions corresponding to all neighboring instances of a character.
+ * Returns whether there exist living infected neighbor cells.
  * @method
- * @param {string} ch
- * @return {string[]} - Array of directions.
+ * @return {number}
  */
-View.prototype.findAll = function(ch) {
-    var found = [],
-        dir;
+View.prototype.hasInfectedLivingNeighbor = function() {
+    var dir;
     for (dir in directions) {
-        if (this.look(dir) === ch) {
-            found.push(dir);
+        if (this.infected(dir) && this.lookAlive(dir)) {
+            return true;
         }
     }
-    return found;
-};
-
-/**
- * Returns a direction in which a given character can be found.
- * If more than one neighboring square has the given found, 
- * a random direction is returned.
- * @method
- * @param {string} ch
- * @return {string}
- */
-View.prototype.find = function(ch) {
-    var found = this.findAll(ch);
-    if (found.length === 0) return null;
-    return randomElement(found);
-};
-
-/**
- * Looks within a one-square-radius for square with a particular value. 
- * @method
- * @param {string} ch
- * @return {string} direction
- */
-View.prototype.findNearby = function(ch) {
-    var found;
-    // Find all spaces into which we could move
-    found = this.findAll(" ").filter(function(dir) {
-        // Calculate the position of the open space
-        // Create a new view based off of said position
-        var foundPosition = this.vector.plus(directions[dir]),
-            foundView = new View(this.world, foundPosition);
-
-        // If the new position is adjacent to a `ch`, return true
-        return !isNully(foundView.find(ch));
-    }.bind(this));
-    
-    if (found.length === 0) return null;
-    return randomElement(found);
+    return false;
 };

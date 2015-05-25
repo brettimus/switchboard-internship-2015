@@ -7,38 +7,16 @@ var d3 = require("d3"),
 var w = window.innerWidth,
     h = window.innerHeight;
 
+var gridWidth = 50,
+    gridHeight = 50;
+
 global.svg = d3.select("body")
             .append("svg").attr({
                 width: w,
                 height: h,
             });
 
-// global.grid = new Grid(20, 20);
 
-// for (var i = 0; i < 20; i++) {
-//     for (var j = 0; j < 20; j++) {
-//         grid.set(new Vector(i, j), i === j);
-//     }
-// }
-
-
-// grid.forEach(function(isAlive, v) {
-//     var x = v.x,
-//         y = v.y;
-//     svg.append("circle")
-//         .attr({
-//             cx: x*6 + 2,
-//             cy: y*6 + 2,
-//             fill: isAlive ? "#222" : "red",
-//             opacity: 0.7,
-//             r: 2,
-//             "stroke-width": 1,
-//             "stroke": "#888",
-//         });
-// }, grid);
-
-var gridWidth = 50,
-    gridHeight = 50;
 
 map = new Array(gridHeight);
 for (var y = 0; y < gridHeight; y++) {
@@ -48,4 +26,4 @@ for (var y = 0; y < gridHeight; y++) {
     }
 }
 
-global.sim = new Simulation(svg, map, 1000);
+global.sim = (new Simulation(svg, map, 1000)).run(250, 450);

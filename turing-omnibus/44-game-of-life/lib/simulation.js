@@ -14,15 +14,7 @@ function Simulation(svg, map, options) {
     this.n = options.iterations || 100;
 }
 
-Simulation.prototype.run = function(times) {
-    times = times || this.n;
-    this.game = new Game(this.svg, this.map);
-    while (times--) {
-        this.game.tick();
-    }
-};
-
-Simulation.prototype.runSlow = function(times, wait) {
+Simulation.prototype.run = function(times, wait) {
     times = times || this.n;
     wait  = wait  || 4000;
 
@@ -31,8 +23,9 @@ Simulation.prototype.runSlow = function(times, wait) {
     var game = this.game,
         simulationPromise = new Promise(simulation);
 
-    simulationPromise.then(success, failure);
-
+    this.promise = simulationPromise.then(success, failure);
+    return this;
+    
     function simulation(resolve, reject) {
         var count = 1,
             interval = setInterval(function() {
