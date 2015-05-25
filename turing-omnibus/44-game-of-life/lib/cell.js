@@ -34,12 +34,3 @@ Cell.prototype.invert = function() {
     this.alive = !this.alive;
     return this;
 };
-
-/**
- * Draw self on svg
- * @method
- * @deprecated
- */
-Cell.prototype.draw = function(svg, vector) {
-
-};

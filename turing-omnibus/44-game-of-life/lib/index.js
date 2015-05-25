@@ -4,12 +4,13 @@ var d3 = require("d3"),
     Grid = require("./grid"),
     Vector = require("./vector");
 
+var w = window.innerWidth,
+    h = window.innerHeight;
+
 global.svg = d3.select("body")
             .append("svg").attr({
-                width: 800,
-                height: 600,
-            }).append("g").attr({
-                transform: "translate(150, 50)"
+                width: w,
+                height: h,
             });
 
 // global.grid = new Grid(20, 20);

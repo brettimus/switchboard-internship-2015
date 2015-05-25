@@ -21,12 +21,15 @@ function Game(svg, map) {
     this.svg = svg;
     this.grid = grid;
 
+    var cellWidth  = +svg.attr("width") / grid.width,
+        cellHeight = +svg.attr("height") / grid.height;
+
     this.attrs = {
-        cx: function(d) { return d.vec.x*10 + 5; },
-        cy: function(d) { return d.vec.y*10 + 5; },
-        fill: function(d) { return d.cell.alive ? "#222" : "transparent"; },
-        opacity: 0.86,
-        r: 1,
+        cx: function(d) { return d.vec.x*cellWidth + cellWidth/2; },
+        cy: function(d) { return d.vec.y*cellHeight + cellHeight/2; },
+        fill: "#222",
+        opacity: function(d) { return d.cell.alive ? 0.42 : 0.09; },
+        r: 2,
     };
 
     this.cellData = [];
@@ -47,7 +50,9 @@ function Game(svg, map) {
         .enter()
         .append("circle")
         .classed("cell", true)
-        .attr(this.attrs);
+        .attr(this.attrs)
+        .transition()
+        .duration(function() { return 200; });
 }
 
 /**
@@ -70,12 +75,14 @@ Game.prototype.toString = function() {
 };
 
 /**
- * Gives all Cell objects a chance to Cell.act,
+ * Gives all Cell objects a chance to live or die.
  * and update the Game.grid to reflect their actions.
  * @method
  */
 Game.prototype.tick = function() {
     var toChangeCount = 0;
+
+    // Change the cells that need to be changed
     this.grid.filter(function(cell, vector) {
         return cell.willChange(new View(this, vector));
     }, this).forEach(function(cell, vector) {
@@ -89,7 +96,8 @@ Game.prototype.tick = function() {
         .selectAll(".cell")
         .data(this.cellData)
         .transition()
-        .delay(function(d, i) { return i % 300; })
+        // .delay(function(d, i) { return i % 100; })
+        .duration(function(d, i) { return 100; })
         .attr(this.attrs);
 
 };

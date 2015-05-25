@@ -95,32 +95,6 @@ Grid.prototype.filter = function(f, context) {
     return result;
 };
 
-/**
- * Iterates over every square in the Grid and returns a new Array of matching cells.
- * @method
- * @param {function} f
- * @param {object} context
- */
-Grid.prototype.filterArray = function(f, context) {
-    var x,
-        y,
-        result = [];
-    for (y = 0; y < this.height; y++) {
-        for (x = 0; x < this.width; x++) {
-            var vector = new Vector(x, y),
-                i = this._indexFromVector(vector),
-                value = this.space[i];
-
-            if (value != null) {
-                if (f.call(context, value, vector)) {
-                    result.push(vector, value);
-                }
-            }
-        }
-    }
-    return result;
-};
-
  /**
   * Helper that finds an index for a given Vector's value within the internal Grid.space property.
   * @method
