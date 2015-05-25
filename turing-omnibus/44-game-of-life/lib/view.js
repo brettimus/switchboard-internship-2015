@@ -35,6 +35,48 @@ View.prototype.lookAlive = function(dir) {
 };
 
 /**
+ * Returns whether cell in given direction is infected. Out-of-bounds returns false.
+ * @method
+ * @param {string} direction - The direction in which to look.
+ * @return {Bool}
+ */
+View.prototype.infected = function(dir) {
+    var target = this.vector.plus(directions[dir]);
+    if (this.game.grid.isInside(target)) {
+        return this.game.grid.get(target).infected;
+    }
+    else {
+        // TODO wrap around the board
+        return false;
+    }
+};
+
+
+/**
+ * Returns a count of all living neighbor cells.
+ * @method
+ * @return {number}
+ */
+View.prototype.neighbors = function() {
+    var aliveCount = 0,
+        dir,
+        infected;
+
+    for (dir in directions) {
+        if (this.lookAlive(dir)) {
+            aliveCount ++;
+        }
+        if (this.infected(dir)) {
+            infected = true;
+        }
+    }
+    return {
+        alive: aliveCount,
+        infected: infected
+    };
+};
+
+/**
  * Returns a count of all living neighbor cells.
  * @method
  * @return {number}
@@ -48,6 +90,21 @@ View.prototype.livingNeighborsCount = function() {
         }
     }
     return aliveCount;
+};
+
+/**
+ * Returns whether or not there are infected neighbor cells.
+ * @method
+ * @return {number}
+ */
+View.prototype.hasInfectedNeighbor = function() {
+    var dir;
+    for (dir in directions) {
+        if (this.infected(dir)) {
+            return true;
+        }
+    }
+    return false;
 };
 
 /**

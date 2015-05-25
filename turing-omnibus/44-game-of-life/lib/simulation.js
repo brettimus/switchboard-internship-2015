@@ -61,8 +61,8 @@ Simulation.prototype.runSlow = function(times, wait) {
                 game.tick();
             } catch (err) {
                 message = "Simulation failed on turn number " + count + ".";
-                simError = new SimulationError(err, message);
-                reject(simError);
+                console.log(message);
+                reject(err);
             }
         }
     }

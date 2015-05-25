@@ -73,5 +73,6 @@ console.log(grunt.file.readJSON("package.json"));
 
   // Default task.
   grunt.registerTask('default', [ 'browserify', 'uglify']);
+  grunt.registerTask('quick', [ 'browserify']);
 
 };

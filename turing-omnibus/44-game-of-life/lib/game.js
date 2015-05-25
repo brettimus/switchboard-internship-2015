@@ -27,12 +27,14 @@ function Game(svg, map) {
     this.attrs = {
         cx: function(d) { return d.vec.x*cellWidth + cellWidth/2; },
         cy: function(d) { return d.vec.y*cellHeight + cellHeight/2; },
-        fill: "#222",
-        opacity: function(d) { return d.cell.alive ? 0.42 : 0.09; },
+        fill: function(d) { return d.cell.infected ? "red" : "#222"; },
+        opacity: function(d) { return d.cell.alive ? 0.42 : 0; },
         r: 2,
     };
 
     this.cellData = [];
+
+    this.cells = this.svg.selectAll(".cell");
 
     map.forEach(function(line, y) {
         var vec,
@@ -45,14 +47,61 @@ function Game(svg, map) {
         }
     }, this);
 
-    this.svg.selectAll(".cell")
+    this.svg
+        .on("click", function(){
+            var elt = d3.select(this);
+            var coords = d3.mouse(this);
+            console.log(coords);
+            var cellRow = Math.floor(coords[0] / cellWidth),
+                cellCol = Math.floor(coords[1] / cellHeight);
+            console.log(cellRow, cellCol);
+            grid.get(new Vector(cellRow, cellCol)).invertInfection();
+            window.requestAnimationFrame(function() {
+                svg.selectAll(".ring")
+                    .data([coords])
+                    .enter()
+                    .append("circle")
+                    .attr({
+                        cx: function(d) { return d[0]; },
+                        cy: function(d) { return d[1]; },
+                        fill: "transparent",
+                        opacity: 0.2,
+                        stroke: "red",
+                        "stroke-width": 2,
+                        r: 4,
+                    })
+                    .transition()
+                    .ease("linear")
+                    .duration(650)
+                    .attr("r", 150)
+                    .attr("opacity", 0)
+                    .remove();
+            });
+
+        });
+
+    this.cells
         .data(this.cellData)
         .enter()
         .append("circle")
         .classed("cell", true)
         .attr(this.attrs)
         .transition()
-        .duration(function() { return 200; });
+        .duration(600);
+
+    this.svg
+        .selectAll(".cell-mask")
+        .data(this.cellData)
+        .enter()
+        .append("rect")
+        .classed("cell-mask", true)
+        .attr({
+            x: function(d) { return d.vec.x*cellWidth; },
+            y: function(d) { return d.vec.y*cellHeight; },
+            fill: "transparent",
+            width: cellWidth,
+            height: cellHeight
+        });
 }
 
 /**
@@ -82,14 +131,22 @@ Game.prototype.toString = function() {
 Game.prototype.tick = function() {
     var toChangeCount = 0;
 
-    // Change the cells that need to be changed
+    // Change the life of cells that need to be changed
     this.grid.filter(function(cell, vector) {
-        return cell.willChange(new View(this, vector));
+        return cell.willChangeLife(new View(this, vector));
     }, this).forEach(function(cell, vector) {
         toChangeCount++;
         cell.invert();
     }, this);
     
+    // Change the health of cells that were infected
+    this.grid.filter(function(cell, vector) {
+        return cell.willChangeHealth(new View(this, vector));
+    }, this).forEach(function(cell, vector) {
+        toChangeCount++;
+        cell.infect();
+    }, this);
+
     if (toChangeCount === 0) return; // stops the screen from vibrating
 
     this.svg
@@ -97,7 +154,7 @@ Game.prototype.tick = function() {
         .data(this.cellData)
         .transition()
         // .delay(function(d, i) { return i % 100; })
-        .duration(function(d, i) { return 100; })
+        .duration(function(d, i) { return 400; })
         .attr(this.attrs);
 
 };

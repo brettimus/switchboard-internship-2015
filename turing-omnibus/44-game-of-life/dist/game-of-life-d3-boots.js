@@ -9,21 +9,52 @@ module.exports = Cell;
 function Cell(id, alive) {
     this.id = id;
     this.alive = !!alive;
+    this.infected = false;
 }
 
 /**
- * Should I live or should I die nowwww? This is kind of hard to read right now sorry.
+ * Should I live or should I die nowwww?
  * @method
+ * @deprecated
  * @returns {Boolean}
  */
 Cell.prototype.willChange = function(view) {
-    // View must tell it how many neighbors are alive.
-    var aliveCount = view.livingNeighborsCount();
-    // if its state changed, return true...
+    var neighbs = view.neighbors(),
+        aliveCount = neighbs.alive;
+
+    // this spreads too quickly because it assigns infection here...
+    if (!this.infected)
+        if(neighbs.infected)
+            this.infect()
+
     if (this.alive && aliveCount < 2) return true;
     if (this.alive && aliveCount > 3) return true;
     if (!this.alive && aliveCount === 3) return true;
     return false;
+};
+
+/**
+ * 
+ * @method
+ * @returns {Boolean}
+ */
+Cell.prototype.willChangeLife = function(view) {
+    var aliveCount = view.livingNeighborsCount();
+    if (this.alive && aliveCount < 2) return true;
+    if (this.alive && aliveCount > 3) return true;
+    if (!this.alive && aliveCount === 3) return true;
+    return false;
+};
+
+/**
+ * 
+ * @method
+ * @returns {Boolean}
+ */
+Cell.prototype.willChangeHealth = function(view) {
+    
+    if (this.infected) return false; // no cure!
+    return view.hasInfectedNeighbor();
 };
 
 /**
@@ -33,6 +64,27 @@ Cell.prototype.willChange = function(view) {
  */
 Cell.prototype.invert = function() {
     this.alive = !this.alive;
+    return this;
+};
+
+
+/**
+ * Infect with virus
+ * @method
+ * @returns {this}
+ */
+Cell.prototype.infect = function() {
+    this.infected = true;
+    return this;
+};
+
+/**
+ * Reverse the infection
+ * @method
+ * @returns {this}
+ */
+Cell.prototype.invertInfection = function() {
+    this.infected = !this.infected;
     return this;
 };
 },{}],2:[function(require,module,exports){
@@ -103,12 +155,14 @@ function Game(svg, map) {
     this.attrs = {
         cx: function(d) { return d.vec.x*cellWidth + cellWidth/2; },
         cy: function(d) { return d.vec.y*cellHeight + cellHeight/2; },
-        fill: "#222",
-        opacity: function(d) { return d.cell.alive ? 0.42 : 0.09; },
+        fill: function(d) { return d.cell.infected ? "red" : "#222"; },
+        opacity: function(d) { return d.cell.alive ? 0.42 : 0; },
         r: 2,
     };
 
     this.cellData = [];
+
+    this.cells = this.svg.selectAll(".cell");
 
     map.forEach(function(line, y) {
         var vec,
@@ -121,14 +175,61 @@ function Game(svg, map) {
         }
     }, this);
 
-    this.svg.selectAll(".cell")
+    this.svg
+        .on("click", function(){
+            var elt = d3.select(this);
+            var coords = d3.mouse(this);
+            console.log(coords);
+            var cellRow = Math.floor(coords[0] / cellWidth),
+                cellCol = Math.floor(coords[1] / cellHeight);
+            console.log(cellRow, cellCol);
+            grid.get(new Vector(cellRow, cellCol)).invertInfection();
+            window.requestAnimationFrame(function() {
+                svg.selectAll(".ring")
+                    .data([coords])
+                    .enter()
+                    .append("circle")
+                    .attr({
+                        cx: function(d) { return d[0]; },
+                        cy: function(d) { return d[1]; },
+                        fill: "transparent",
+                        opacity: 0.2,
+                        stroke: "red",
+                        "stroke-width": 2,
+                        r: 4,
+                    })
+                    .transition()
+                    .ease("linear")
+                    .duration(650)
+                    .attr("r", 150)
+                    .attr("opacity", 0)
+                    .remove();
+            });
+
+        });
+
+    this.cells
         .data(this.cellData)
         .enter()
         .append("circle")
         .classed("cell", true)
         .attr(this.attrs)
         .transition()
-        .duration(function() { return 200; });
+        .duration(600);
+
+    this.svg
+        .selectAll(".cell-mask")
+        .data(this.cellData)
+        .enter()
+        .append("rect")
+        .classed("cell-mask", true)
+        .attr({
+            x: function(d) { return d.vec.x*cellWidth; },
+            y: function(d) { return d.vec.y*cellHeight; },
+            fill: "transparent",
+            width: cellWidth,
+            height: cellHeight
+        });
 }
 
 /**
@@ -158,14 +259,22 @@ Game.prototype.toString = function() {
 Game.prototype.tick = function() {
     var toChangeCount = 0;
 
-    // Change the cells that need to be changed
+    // Change the life of cells that need to be changed
     this.grid.filter(function(cell, vector) {
-        return cell.willChange(new View(this, vector));
+        return cell.willChangeLife(new View(this, vector));
     }, this).forEach(function(cell, vector) {
         toChangeCount++;
         cell.invert();
     }, this);
     
+    // Change the health of cells that were infected
+    this.grid.filter(function(cell, vector) {
+        return cell.willChangeHealth(new View(this, vector));
+    }, this).forEach(function(cell, vector) {
+        toChangeCount++;
+        cell.infect();
+    }, this);
+
     if (toChangeCount === 0) return; // stops the screen from vibrating
 
     this.svg
@@ -173,7 +282,7 @@ Game.prototype.tick = function() {
         .data(this.cellData)
         .transition()
         // .delay(function(d, i) { return i % 100; })
-        .duration(function(d, i) { return 100; })
+        .duration(function(d, i) { return 400; })
         .attr(this.attrs);
 
 };
@@ -418,8 +527,8 @@ Simulation.prototype.runSlow = function(times, wait) {
                 game.tick();
             } catch (err) {
                 message = "Simulation failed on turn number " + count + ".";
-                simError = new SimulationError(err, message);
-                reject(simError);
+                console.log(message);
+                reject(err);
             }
         }
     }
@@ -528,6 +637,48 @@ View.prototype.lookAlive = function(dir) {
 };
 
 /**
+ * Returns whether cell in given direction is infected. Out-of-bounds returns false.
+ * @method
+ * @param {string} direction - The direction in which to look.
+ * @return {Bool}
+ */
+View.prototype.infected = function(dir) {
+    var target = this.vector.plus(directions[dir]);
+    if (this.game.grid.isInside(target)) {
+        return this.game.grid.get(target).infected;
+    }
+    else {
+        // TODO wrap around the board
+        return false;
+    }
+};
+
+
+/**
+ * Returns a count of all living neighbor cells.
+ * @method
+ * @return {number}
+ */
+View.prototype.neighbors = function() {
+    var aliveCount = 0,
+        dir,
+        infected;
+
+    for (dir in directions) {
+        if (this.lookAlive(dir)) {
+            aliveCount ++;
+        }
+        if (this.infected(dir)) {
+            infected = true;
+        }
+    }
+    return {
+        alive: aliveCount,
+        infected: infected
+    };
+};
+
+/**
  * Returns a count of all living neighbor cells.
  * @method
  * @return {number}
@@ -541,6 +692,21 @@ View.prototype.livingNeighborsCount = function() {
         }
     }
     return aliveCount;
+};
+
+/**
+ * Returns whether or not there are infected neighbor cells.
+ * @method
+ * @return {number}
+ */
+View.prototype.hasInfectedNeighbor = function() {
+    var dir;
+    for (dir in directions) {
+        if (this.infected(dir)) {
+            return true;
+        }
+    }
+    return false;
 };
 
 /**
