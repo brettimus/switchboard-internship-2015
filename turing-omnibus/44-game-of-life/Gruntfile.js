@@ -1,6 +1,5 @@
 /*global module:false*/
 module.exports = function(grunt) {
-console.log(grunt.file.readJSON("package.json"));
   // Project configuration.
   grunt.initConfig({
     // Metadata.
