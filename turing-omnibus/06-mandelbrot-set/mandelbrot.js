@@ -15,7 +15,7 @@ function canvasMandelbrot(left, top, width, options) {
 
 
 //svg is borked D: it looks like shit
-function svgExample(options) {
+function svgMandelbrot(options) {
     options = options || {};
     options.height = options.height || 500;
     options.width = options.width || 500;

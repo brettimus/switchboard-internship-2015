@@ -39,7 +39,7 @@ function simulateSlowly(world, options) {
             } catch (err) {
                 message = "Simulation failed on turn number " + count + ".";
                 simError = new SimulationError(err, message);
-                reject();
+                reject(simError);
             }
         }
     }

@@ -13,14 +13,11 @@ console.log(grunt.file.readJSON("package.json"));
     browserify: {
       dist: {
         files: {
-          'dist/<%= pkg.name %>': ['lib/**/*.js'],
+          'dist/<%= pkg.name %>.js': ['lib/**/*.js'],
         },
       }
     },
     uglify: {
-      options: {
-        banner: '<%= banner %>'
-      },
       dist: {
         src: 'dist/<%= pkg.name %>.js',
         dest: 'dist/<%= pkg.name %>.min.js'
