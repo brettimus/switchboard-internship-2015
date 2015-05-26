@@ -1,0 +1,15 @@
+{
+  "name": "mandelbrot-set-boots",
+  "version": "0.0.1",
+  "description": "## Usage SVG version is borked. Use canvas: ```javascript canvasMandelbrot(0, 0, 1, {scale: 30, width: 300, height: 300, translateX: 100, translateY: 100}); ```",
+  "main": "mandelbrot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mandelbrot",
+    "canvas"
+  ],
+  "author": "boots <brbeut@gmail.com> (http://brettim.us/)",
+  "license": "MIT"
+}
