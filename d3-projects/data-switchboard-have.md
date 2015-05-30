@@ -1,0 +1,1 @@
+# This might become a list of fields that we collect. I'll run it by sean before publishing publicly.
