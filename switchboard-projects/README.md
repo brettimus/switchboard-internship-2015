@@ -15,3 +15,10 @@ I.e., I would like to be able to tell the function which form element to inspect
   - "@ " should not trigger a "mentioning" state
   - We must be able to detect first and last name combinations.
   - There are more edge cases, but I'll let you find those on your own!
+
+## PROMISE ME NOTHING (But please use a promise)
+** Use ES6 Promises to refactor the ajax in [quill-mentions](https://github.com/brettimus/quill-mentions).
+
+[A crash course on promises.](http://www.html5rocks.com/en/tutorials/es6/promises/)
+
+[The es6-promises package.](https://www.npmjs.com/package/es6-promise)
