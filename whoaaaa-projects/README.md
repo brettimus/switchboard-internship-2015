@@ -22,3 +22,7 @@ Make a game of life simulation that runs for N turns,
 (silently) caches the lifespans of cells throughout those N turns,
 and animates a game of life 
 where cells fade into and out of existence according to their lifespans.
+
+
+## Full Template
+Create a mini-templating language.
