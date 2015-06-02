@@ -22,6 +22,8 @@ This article is a classic (9 years is _old_ in internet time). If you want to ta
 
 What’s funny is I am writing this document in the IA writer app…
 
+Ahh! [Look a pretty font.](http://www.regularbolditalic.com/fonts/staat)
+
 ### A Game Appeared!
 [The joy of kerning…](https://xkcd.com/1015/)
 
