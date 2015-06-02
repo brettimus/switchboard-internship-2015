@@ -2,7 +2,7 @@
 GitHub allows you to host static sites for free. This is ideal for personal web pages (or blogs). Down the line, you will be able to set a custom domain for your pages. http://me.me :tada:
 
 
-[To get started, let's go here.](https://pages.github.com/) This should 
+[To get started, let's go here.](https://pages.github.com/) We'll go through the dead-simple process of putitng up a webpage through a repo.
 
 
 Once you have your site setup, we’ll push some content. Then, if you want, I have a little bit of designy stuff to work on whenever you tire of learning JS.  
