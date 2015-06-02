@@ -1,9 +1,12 @@
 # GitHub Pages and You
-GitHub allows you to host static sites for free. This is ideal for personal web pages (or blogs). Down the line, you can also very easily set up your own domain on your GitHub Page., which is yet more ideal!!
+GitHub allows you to host static sites for free. This is ideal for personal web pages (or blogs). Down the line, you will be able to set a custom domain for your pages. http://me.me :tada:
 
-[To get started, go here.](https://pages.github.com/)
 
-Once you have a domain setup, we’ll push some content. Then, if you want, I have a little bit of designy stuff to work on whenever you tire of learning JS.  
+[To get started, let's go here.](https://pages.github.com/) This should 
+
+
+Once you have your site setup, we’ll push some content. Then, if you want, I have a little bit of designy stuff to work on whenever you tire of learning JS.  
+
 
 ## What you should do
 * Choose a font from [Google Fonts](https://www.google.com/fonts), and I’ll show you how to add it to your page.
