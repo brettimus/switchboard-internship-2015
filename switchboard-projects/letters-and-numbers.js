@@ -1,7 +1,7 @@
 var lower_case = [];
 var upper_case = [];
 var numbers = [];
-var symbols = "\" ' , . : { } [ ]".split(" ");
+var symbols = "\' \" , . : { } [ ] % - _".split(" ");
 
 var aCode = "a".charCodeAt(0);    // get the unicode code point for lower case a
 var ACode = "A".charCodeAt(0);    // samesies for upper case A
