@@ -26,16 +26,16 @@ one of our thriving SBs.
 
 ### Class Year
 
-Right now, I'm bootstrapping (how apropo!) some normal (i.e., Gaussian normal) data.
+Right now, I'm bootstrapping (how apropo!) some random normal (i.e., Gaussian) data.
 It gives the graph a bell-curve shape, but that's insufficient.
 
-We want to demonstrate high new-alumni and current-student numbers. 
-(This more accurately reflects your typical switchboard.)
+We want to demonstrate a high percentage of new-alumni and current-student users. 
+(This more accurately reflects the typical switchboard.)
 
-To do so, we could consider shifting the normal curve 
+One possible solution to this is to shift the normal curve 
 so that its mean is somewhere around next year's graduating class.
 
-To get you started, here's the code I'm using:
+To get you started, here's the code I'm currently using:
 
 ** Dependencies ** 
 Note this code relies on d3. See the comments on how to use it in your project.
@@ -80,7 +80,7 @@ We want to show growth of users over time and by month.
 For the monthly growth chart, I'm just generating uniform random data in the range [12, 57]. 
 This suffices, but if you have better ideas, I'll listen.
 
-For aggregate growth, I'm not doing anything. I could use your help on this one.
+For aggregate growth, I'm not doing anything. I could use your help, rly.
 
 ** Dependencies ** Note this code relies on [moment.js](http://momentjs.com/). 
 You'll have to `npm install --save moment` and `require` it in your project files accordingly.
