@@ -72,10 +72,14 @@ function bootstrap(n, f) {
 ## Monthly and Aggregate Growth
 We want to show growth of users over time and by month. 
 For the monthly growth chart, I'm just generating uniform random data in the range [12, 57]. 
+This suffices, but if you have better ideas, I'll listen.
+
 For aggregate growth, I'm not doing anything. I could use your help on this one.
 
 ** Dependencies ** Note this code relies on [moment.js](http://momentjs.com/). 
 You'll have to `npm install --save moment` and `require` it in your project files accordingly.
+
+_Note the format of the data!! Please keep this format in your own function._
 
 ```javascript
 // monthly growth chya right
@@ -99,3 +103,6 @@ function fakeData() {
     return result;
 }
 ```
+
+## Good luck!
+Call me if you need anything.
