@@ -11,12 +11,18 @@ This mockup serves two purposes
 ## The problem
 As it stands, the mockup could do more to serve the second bullet point above.
 
-You see, I got lazy in creating my data-generation functions. 
+You see, I got lazy in crafting my random-data-generating functions. 
 In fact, on a call with Oberlin yesterday (a wonderful, wonderful client),
 Maya'an (who heads up the Oberlin SB) spotted the inaccuracy of the data 
 immediately.
 
+We don't want prospects distracted by the thought of "well that's clearly not true". 
+We want to make the mockup align with how Erik sells the product 
+(which is in turn based on the data we have for other higher ed clients).
+
 ## What we need
+We need functions that spit out "random" data that look like they came from 
+one of our thriving SBs.
 
 ### Class Year
 
