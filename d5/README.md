@@ -26,7 +26,7 @@ You should use [grunt](http://gruntjs.com/getting-started) as a build tool. Your
 For the example(s), you’re free to use plain html/css, or if you want, you can build them with a template language + css preprocessor of your choice. I like using [handlebars](http://handlebarsjs.com/) and [scss](http://sass-lang.com/). You can find appropriate grunt plugins for these with a little googlin’.
 
 ## Remember
-You want to expose a global variable for our chartying. One way to do this is assign `GLOBAL.d5` in one of your `src` files. I think you can also assign directly to the `window` object, but `GLOBAL` has been my preferred method for no good reason except that maybe assigning to `window` doesn’t work out of the box… think you may have to do `if (window) window.d5 = d5;`.
+You want to expose a global variable for our chartying. One way to do this is assign `global.d5` in one of your `src` files. I think you can also assign directly to the `window` object, but `global` has been my preferred method for no good reason except that maybe assigning to `window` doesn’t work out of the box… think you may have to do `if (window) window.d5 = d5;`.
 
 ALTERNATIVELY, you could write all of this as a d3 plugin. (I.e., call your library on the `d3` global, and assign all functions to a namespace within `d3` or `d3` directly.) It’s up to you. Feel it out.
 
