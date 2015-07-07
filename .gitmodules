@@ -1,0 +1,6 @@
+[submodule "d5/datD3"]
+	path = d5/datD3
+	url = https://github.com/hhaysmit/datD3.git
+[submodule "d5/dank-driven-documents"]
+	path = d5/dank-driven-documents
+	url = https://github.com/wjones127/dank-driven-documents.git
