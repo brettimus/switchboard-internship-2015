@@ -4,3 +4,6 @@
 [submodule "d5/dank-driven-documents"]
 	path = d5/dank-driven-documents
 	url = https://github.com/wjones127/dank-driven-documents.git
+[submodule "d5/d5-boots"]
+	path = d5/d5-boots
+	url = https://github.com/brettimus/d5-boots.git
