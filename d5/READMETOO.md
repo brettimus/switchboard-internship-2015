@@ -18,7 +18,7 @@ and incorporate them into a chart that has several possible states.
 
 (I.e., your chart should respond to user input in some fashion.)
 
-*. Wrap all of this up in a simple web page.
+* Wrap all of this up in a simple web page.
 
 There are several design considerations here.
 * zee basics (font, color, positioning)
