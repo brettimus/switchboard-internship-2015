@@ -6,11 +6,11 @@ It is _drumroll_ An interactive chart!
 
 # What you gotta do (a.k.a. the bear necessities)
 
-1. Find some data.
+* Find some data.
 
 If you want, I'll supply you with the jukebox data I've been talking about nonstop.
 
-2. Create an interactive, explanatory chart from ur d8a.
+* Create an interactive, explanatory chart from ur d8a.
 
 This means you should explore the data first. 
 Find some cool (interactive) properties of the data, 
@@ -18,8 +18,7 @@ and incorporate them into a chart that has several possible states.
 
 (I.e., your chart should respond to user input in some fashion.)
 
-
-3. Wrap all of this up in a simple web page.
+* Wrap all of this up in a simple web page.
 
 There are several design considerations here.
 * zee basics (font, color, positioning)
