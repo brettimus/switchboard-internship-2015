@@ -22,11 +22,11 @@ return
 var height = options.height;
 …
 function myChart() { /* Generate chart here */}
-myChart.height = function(value) {
-    if (!arguments.length) return height;
-		height = value;
-    return myChart;
-}
+    myChart.height = function(value) {
+        if (!arguments.length) return height;
+        height = value;
+        return myChart;
+    }
 …
 return myChart
 ```
